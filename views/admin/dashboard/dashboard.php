@@ -1,10 +1,10 @@
 <?php 
     session_start();
     if(!isset($_SESSION["email_address"])) {
-      header("Location: ../auth/signup.php");
+      header("Location: ../../auth/signup.php");
       exit();
     }
-    require_once("../../controllers/adminController.php");
+    require_once("../../../controllers/adminController.php");
     // require_once("../../controllers/studentController.php");
     define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/views/");
     include(ROOT."includes/header.inc.php");

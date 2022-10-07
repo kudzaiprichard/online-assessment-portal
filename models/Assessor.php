@@ -11,8 +11,6 @@ class Assessor{
     private $physicalAddress;
 
     function __construct($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $accountType) {
-        parent::__construct($emailAddress,$password=null,$accountType);
-        super($emailAddress,$password,$accountType);
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->regNumber = $regNumber;
@@ -20,9 +18,7 @@ class Assessor{
         $this->phoneNumber = $phoneNumber;
         $this->emailAddress = $emailAddress;
         $this->physicalAddress = $physicalAddress;
-        $this->db = new Connection("localhost", "root", "", "portal");
     }
-
 
     function __toString() {
         $output = "<h2>User id: $this->id</h2>\n" .
@@ -36,29 +32,24 @@ class Assessor{
     return $output;
     }
 
-    function saveAssessor() {
-        $isCreated;
-        $query = "INSERT into `student` (first_name, last_name, reg_number, program, phone_number, email_address, physical_address) 
-                                    VALUES ('$this->firstName', '$this->lastName', '$this->regNumber', '$this->program', 
-                                            '$this->phoneNumber', '$this->emailAddress',  '$this->physicalAddress')";
-        $con = $this->db->openConnection();
-        if (mysqli_query($con, $query)) {
-            $isCreated = True;
-        } else {
-            $isCreated = False;
-        } 
-        $con->close();
+    function getId(){return $this->id;}
+    function getFirstName(){return $this->firstName;}
+    function getLastName(){return $this->lastName;}
+    function getRegNumber(){return $this->regNumber;}
+    function getProgram(){return $this->program;}
+    function getPhoneNumber(){return $this->phoneNumber;}
+    function getEmailAddress(){return $this->emailAddress;}
+    function getPhysicalAddress(){return $this->physicalAddress;}
 
-    return $isCreated;
-    }
+    function setId($id){$this->id = $id;}
+    function setFirstName($firstName){$this->firstName = $firstName;}
+    function setLastName($lastName){$this->lastName = $lastName;}
+    function setRegNumber($regNumber){$this->regNumber = $regNumber;}
+    function setProgram($program){$this->program = $program;}
+    function setPhoneNumber($phoneNumber){$this->phoneNumber = $phoneNumber;}
+    function setEmailAddress($emailAddress){$this->emailAddress = $emailAddress;}
+    function setPhysicalAddress($physicalAddress){$this->physicalAddress = $physicalAddress;}
     
-    static function fetchAssessors() {}
-
-    function updateAssessorById($id) {}
-
-    function deleteAssessorById($id) {}
-
-    static function getAssessorById($id) {}
 }
 
 ?>

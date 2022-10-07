@@ -1,7 +1,8 @@
 
 <?php 
-    require_once("../../controllers/adminController.php");
+    require_once("../../../controllers/adminController.php");
     define('ASSETS',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/assets");
+    define('ADMIN',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/views/admin/");
     $adminController = new AdminController();
     $emailAddress = $_SESSION['email_address'];
     $user = $adminController->getLoggedInUser($emailAddress);
@@ -36,10 +37,10 @@
             </a>
             <ul id="ddmenu_1" class="collapse show dropdown-nav">
                 <li>
-                    <a href="index.html" class="active"> Profile </a>
+                    <a href="#" > Dashboard </a>
                 </li>
                 <li>
-                    <a href="index.html" class="active"> Notifications </a>
+                    <a href="index.html"> Profile </a>
                 </li>
             </ul>
         </li>
@@ -113,16 +114,16 @@
                     </a>
                     <ul id="ddmenu" class="collapse show dropdown-nav">
                         <li>
-                            <a href="index.html" class="active"> Users Summary </a>
+                            <a href="index.html"> Users Summary </a>
                         </li>
                         <li>
-                            <a href="index.html" class="active"> Supervisors </a>
+                            <a href="index.html"> Supervisors </a>
                         </li>
                         <li>
-                            <a href="index.html" class="active"> Assessors </a>
+                            <a href="index.html"> Assessors </a>
                         </li>
                         <li>
-                            <a href="index.html" class="active"> Students </a>
+                            <a href="index.html"> Students </a>
                         </li>
                     </ul>
                 </li>

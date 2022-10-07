@@ -29,28 +29,20 @@ class Supervisor{
     return $output;
     }
 
-    function saveSupervisor() {
-        $isCreated;
-        $query = "INSERT into `supervisor` (first_name, last_name, position, company_name, phone_number, email_address) 
-                                    VALUES ('$this->firstName', '$this->lastName', '$this->position', '$company_name', 
-                                            '$this->phoneNumber', '$this->emailAddress')";
-        $con = $this->db->openConnection();
-        if (mysqli_query($con, $query)) {
-            $isCreated = True;
-        } else {
-            $isCreated = False;
-        } 
-        $con->close();
+    function getId(){return $this->id;}
+    function getFirstName(){return $this->firstName;}
+    function getLastName(){return $this->lastName;}
+    function getPosition(){return $this->position;}
+    function getCompanyName(){return $this->companyName;}
+    function getEmailAddress(){return $this->emailAddress;}
+    function getPhoneNumber(){return $this->phoneNumber;}
 
-    return $isCreated;
-    }
-    
-    static function fetchSupervisors() {}
-
-    function updateSupervisorById($id) {}
-
-    function deleteSupervisorById($id) {}
-
-    static function getSupervisorById($id) {}
+    function setId($id){$this->id = $id;}
+    function setFirstName($firstName){$this->firstName = $firstName;}
+    function setLastName($lastName){$this->lastName = $lastName;}
+    function setPosition($position){$this->position = $position;}
+    function setCompanyName($companyName){$this->companyName = $companyName;}
+    function setEmailAddress($emailAddress){$this->emailAddress = $emailAddress;}
+    function setPhoneNumber($phoneNumber){$this->phoneNumber = $phoneNumber;}
 }
 ?>

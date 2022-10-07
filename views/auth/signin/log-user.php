@@ -1,5 +1,5 @@
 <?php
-    require_once("../../controllers/adminController.php");
+    require_once("../../../controllers/adminController.php");
     define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/controllers/");
     require_once(ROOT."Connection.php");
     $adminController = new AdminController();
@@ -18,7 +18,7 @@
         if($adminController->login($emailAddress, $password)){
             $_SESSION['email_address'] = $emailAddress;
             $msg = "You have been logged in successfully";
-            header("Location: ../dashboard/dashboard.php?$msg");
+            header("Location: ../../admin/dashboard/dashboard.php?$msg");
             die();
         }else{
             $msg = "Password or Email is wrong please try again";

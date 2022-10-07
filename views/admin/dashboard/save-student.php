@@ -1,5 +1,5 @@
 <?php
-    require_once("../../controllers/adminController.php");
+    require_once("../../../controllers/adminController.php");
     define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/controllers/");
     require_once(ROOT."Connection.php");
     $adminController = new AdminController();

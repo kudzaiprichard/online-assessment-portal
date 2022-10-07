@@ -3,21 +3,15 @@ define('C',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/models/");
 include(C."student.php");
 // require("userServices.php");
 class StudentsServices extends UserServices{
-    private $admin;
     private $db;
-    private $student;
-
-    function __construct() {
-        parent::__construct();
-        $this->db = new Connection("localhost", "root", "", "portal");
-    }
+    function __construct() {$this->db = new Connection("localhost", "root", "", "portal");}
     
-    function createStudent($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress)
+    function createStudent($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $assesor_id, $supervisor_id)
     {
-        $isCreated;
-        $query = "INSERT into `student` (first_name, last_name, reg_number, program, phone_number, email_address, physical_address) 
+        $isCreated=false;
+        $query = "INSERT into `student` (first_name, last_name, reg_number, program, phone_number, email_address, physical_address, assesor_id, supervisor_id) 
                                     VALUES ('$firstName', '$lastName', '$regNumber', '$program', 
-                                            '$phoneNumber', '$emailAddress',  '$physicalAddress')";
+                                            '$phoneNumber', '$emailAddress',  '$physicalAddress',  '$assesor_id',  '$supervisor_id')";
         $con = $this->db->openConnection();
         if (mysqli_query($con, $query)) {
             $isCreated = True;
@@ -29,21 +23,51 @@ class StudentsServices extends UserServices{
     return $isCreated;
     }
 
-    static function fetchStudents() {}
+    function fetchStudents() {
+        $students = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `student`";
 
-    function updateStudentById($id) {}
+        $result = mysqli_query($con, $query);
 
-    function deleteStudentById($id) {}
+        while($row = $result->fetch_assoc()) {
+            $student = new Student($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address'],$row['assessor_id'],$row['supervisor_id']);
+            array_push($students, $student);
+            unset($student);
+        }
 
-    static function getStudentById($id) {}
+        $con->close(); 
+        return $students;
+    }
+
+    #TODO:update function
+    function updateStudentByEmail($id) {
+
+    }
+
+    function deleteStudentByEmail($emailAddress) {
+        $con = $this->db->openConnection();
+        $query = "DELETE FROM student WHERE email_address='$emailAddress'";
+        $result = $con->query($query);
+        $con->close();
+    }
+
+    function getStudentByEmail($emailAddress) {
+        $students = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `student` WHERE `email_address` = '$emailAddress'";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $student = new Student($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address'],$row['assessor'],$row['supervisor']);
+            array_push($students, $student);
+            unset($user);
+        }
+
+        $con->close(); 
+        return $students[0];
+    }
 
 }
-//works
-$student = new StudentsServices();
-// $student->createStudent("prichard", "matizirofa", "R191582L", "HAI", "0773403472", "prichard21@gmail.com", "cranborne");
-// $student->saveUser(true,null,"prichard21@gmail.com","student");
-
-//user registration
-$student->saveUser(false,"nuttertools","prichard21@gmail.com",null);
-
 ?>

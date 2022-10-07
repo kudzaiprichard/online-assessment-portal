@@ -14,29 +14,15 @@ class UserBaseClass {
         $this->accountType = $accountType;
     }
 
-    function getId()
-    {
-        return $this->id;
-    }
+    function getId(){return $this->id;}
+    function getEmailAddress(){return $this->emailAddress;}
+    function getAccountType(){return $this->accountType;}
+    function getPassword(){return $this->password;}
 
-    function getEmailAddress()
-    {
-        return $this->emailAddress;
-    }
-
-    function getAccountType()
-    {
-        return $this->accountType;
-    }
-
-    function getPassword()
-    {
-        return $this->password;
-    }
-
+    function setId($id){$this->id = $id;}
+    function setEmailAddress($emailAddress){$this->emailAddress = $emailAddress;}
+    function setAccountType($accountType){$this->accountType = $accountType;}
+    function setPassword($password){$this->password = $password;}
 }
-
-// $user = new UserBaseClass();
-// $user->updateAccountType(3,"not admin");
 
 ?>

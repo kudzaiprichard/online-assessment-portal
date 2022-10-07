@@ -11,7 +11,6 @@ class UserServices{
         $users = array();
         $con = $this->db->openConnection();
         $query = "SELECT * FROM `user`";
-
         $result = mysqli_query($con, $query);
 
         while($row = $result->fetch_assoc()) {
@@ -81,7 +80,7 @@ class UserServices{
         $isLoggedIn = False;
 
         $query = "SELECT * FROM `user` WHERE `email_address`= '$emailAddress' AND `password` = '" . md5($password) . "'";
-        $result = mysqli_query($con, $query) or die(mysql_error());
+        $result = mysqli_query($con, $query);
         $rows = mysqli_num_rows($result);
 
         if ($rows == 1) {
@@ -148,7 +147,7 @@ class UserServices{
 
 
     function getLoggedInUser($emailAddress) {
-        $user;
+        $users = array();
         $con = $this->db->openConnection();
         $query = "SELECT * FROM `user` WHERE `email_address` = '$emailAddress'";
 
@@ -156,10 +155,12 @@ class UserServices{
 
         while($row = $result->fetch_assoc()) {
             $user = new UserBaseClass($row['id'],$row['email_address'],$row['password'],$row['account_type']);
+            array_push($users, $user);
+            unset($user);
         }
 
         $con->close(); 
-        return $user;
+        return $users[0];
     }
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-require("../../controllers/adminController.php");
+require("../../../controllers/adminController.php");
 $adminController = new AdminController();
 
 if(isset($_GET['id'])){

@@ -7,7 +7,7 @@ $user_email = $_GET['id'];
 $adminController->logout();
 
 $msg = "Logged out successfully";
-header("Location: signin.php?$msg");
+header("Location: signin/signin.php?$msg");
 die();
 
 ?>

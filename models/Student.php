@@ -9,8 +9,10 @@ class Student{
     private $phoneNumber;
     private $emailAddress;
     private $physicalAddress;
+    private $assessor;
+    private $supervisor;
 
-    function __construct($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $accountType) {
+    function __construct($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $assessor, $supervisor) {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->regNumber = $regNumber;
@@ -18,6 +20,8 @@ class Student{
         $this->phoneNumber = $phoneNumber;
         $this->emailAddress = $emailAddress;
         $this->physicalAddress = $physicalAddress;
+        $this->assessor = $assessor;
+        $this->supervisor = $supervisor;
     }
 
     function __toString() {
@@ -32,94 +36,28 @@ class Student{
     return $output;
     }
 
-    function getId()
-    {
-        return$this->id;
-    }
+    function getId(){return$this->id;}
+    function getFirstName(){return $this->firstName;}
+    function getLastName(){return $this->lastName;}
+    function getRegNumber(){return $this->regNumber;}
+    function getProgram(){return $this->program;}
+    function getPhoneNumber(){return $this->phoneNumber;}
+    function getEmailAddress(){return $this->emailAddress;}
+    function getPhysicalAddress(){return $this->physicalAddress;}
+    function getAssessor(){return $this->assessor;}
+    function getSupervisor(){return $this->supervisor;}
 
-    function getFirstName()
-    {
-        return$this->firstName;
-    }
-
-    function getLastName()
-    {
-        return$this->lastName;
-    }
-
-    function getRegNumber()
-    {
-        return$this->regNumber;
-    }
-
-    function getProgram()
-    {
-        return$this->program;
-    }
-
-    function getPhoneNumber()
-    {
-        return$this->phoneNumber;
-    }
-
-    function getEmailAddress()
-    {
-        return$this->emailAddress;
-    }
-
-    function getPhysicalAddress()
-    {
-        return $this->physicalAddress;
-    }
-
-    function setId($id)
-    {
-    $this->id = $id;
-    }
-
-    function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-    }
-
-    function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-    }
-
-    function setRegNumber($regNumber)
-    {
-        $this->regNumber = $regNumber;
-    }
-
-    function setProgram($program)
-    {
-        $this->program = $program;
-    }
-
-    function setPhoneNumber($phoneNumber)
-    {
-        $this->phoneNumber = $phoneNumber;
-    }
-
-    function setEmailAddress($emailAddress)
-    {
-        $this->emailAddress = emailAddress;
-    }
-
-    function setPhysicalAddress($physicalAddress)
-    {
-        $this->physicalAddress = $physicalAddress;
-    }
+    function setId($id){$this->id = $id;}
+    function setFirstName($firstName){$this->firstName = $firstName;}
+    function setLastName($lastName){$this->lastName = $lastName;}
+    function setRegNumber($regNumber){$this->regNumber = $regNumber;}
+    function setProgram($program){$this->program = $program;}
+    function setPhoneNumber($phoneNumber){$this->phoneNumber = $phoneNumber;}
+    function setEmailAddress($emailAddress){$this->emailAddress = $emailAddress;}
+    function setPhysicalAddress($physicalAddress){$this->physicalAddress = $physicalAddress;}
+    function setAssessor($assessor){$this->assessor = $assessor;}
+    function setSupervisor($supervisor){$this->supervisor = $supervisor;}
 
 }
 
-// $user = new Student("wwww","eeee","eeeeeff","ffffw","r45rt","pride@gmail.com","rwwst","Account type");
-// echo $user->__toString();
-// $user->saveUser(false,"password","pride@gmail.com"); setting user password
-// $user->login("kudzaiprichard@gmail.com","password");
-// $user->updateEmail(1,"prichard@gmail.com");
-
-// $user->saveUser();
-// $user->saveStudent();
 ?>

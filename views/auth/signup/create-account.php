@@ -1,5 +1,5 @@
 <?php
-    require_once("../../controllers/adminController.php");
+    require_once("../../../controllers/adminController.php");
     define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/controllers/");
     require_once(ROOT."Connection.php");
     $adminController = new AdminController();
@@ -20,11 +20,11 @@
         if($password == $confirmPassword){
             if($adminController->saveAsUser(false,$password,$emailAddress,null)){
                 $msg = "Account Registered successfully, you can procced to login";
-                header("Location: signin.php?$msg");
+                header("Location: ../signin/signin.php?$msg");
                 die();
             }else{
                 $msg = "The email address used is not registered";
-                header("Location: signin.php?$msg");
+                header("Location: signup.php?$msg");
                 die();
             }
             
