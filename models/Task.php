@@ -4,18 +4,25 @@ class Task{
     private $name;
     private $description;
     private $status;
+    private $studentComment;
+    private $supervisorComment;
     private $student;
     private $supervisor;
     private $timestamp;
+    private $rating;
 
-    function __construct($id=null, $taskName, $taskDescription, $status, $student, $supervisor, $timestamp=null){
+    function __construct($id, $taskName, $taskDescription, $status, $studentComment, $supervisorComment ,$student, $supervisor, $timestamp, $rating){
         $this->id = $id;
         $this->name = $taskName;
         $this->description = $taskDescription;
         $this->status = $status;
+        $this->studentComment = $studentComment;
+        $this->supervisorComment = $supervisorComment;
         $this->student = $student;
         $this->supervisor = $supervisor;;
         $this->timestamp = $timestamp;
+        $this->rating = $rating;
+
     }
 
     function getId(){return $this->id;}
@@ -25,6 +32,9 @@ class Task{
     function getStudent(){return $this->student;}
     function getSupervisor(){return $this->supervisor;}
     function getTimestamp(){return $this->timestamp;}
+    function getStudentComment(){return $this->studentComment;}
+    function getSupervisorComment(){return $this->supervisorComment;}
+    function getRating(){return $this->rating;}
     
     function setId($id){$this->id = $id;}
     function setName($name){$this->name = $name;}
@@ -33,5 +43,9 @@ class Task{
     function setStudent($student){$this->student = $student;}
     function setSupervisor($supervisor){$this->supervisor = $supervisor;}
     function setTimestamp($timestamp){$this->timestamp = $timestamp;}
+    function setStudentComment($studentComment){$this->studentComment = $studentComment;}
+    function setSupervisorComment($supervisorComment){$this->supervisorComment = $supervisorComment;}
+    function setRating($rating){$this->rating = $this->rating= $rating;}
+    
 }
 ?>

@@ -1,7 +1,4 @@
 <?php
-// require('Connection.php');
-define('A',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/models/");
-include(A."UserBaseClass.php");
 include(A."Assessor.php");
 
 class AssessorService{
@@ -10,7 +7,7 @@ class AssessorService{
 
     function saveAssessor($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress) {
         $isCreated = false;
-        $query = "INSERT into `student` (first_name, last_name, reg_number, program, phone_number, email_address, physical_address) 
+        $query = "INSERT into `assesor` (first_name, last_name, reg_number, program, phone_number, email_address, physical_address) 
                                     VALUES ('$firstName', '$lastName', '$regNumber', '$program', 
                                             '$phoneNumber', '$emailAddress',  '$physicalAddress')";
         $con = $this->db->openConnection();

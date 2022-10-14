@@ -5,13 +5,17 @@
       exit();
     }
     require_once("../../../controllers/adminController.php");
-    // require_once("../../controllers/studentController.php");
+    require_once("../../../controllers/studentController.php");
+    require_once("../../../controllers/supervisorController.php");
+
     define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/views/");
     include(ROOT."includes/header.inc.php");
-    // include(ROOT."includes/side-bar.inc.php");
+    
+    $supervisorController = new SupervisorController();
+    $studentController = new StudentController();
 
-    $adminController = new AdminController();
-    $users = $adminController->fetchAllUsers();
+    $supervisor = $supervisorController->getLoggedInUser($_SESSION["email_address"]);
+    $students = $supervisorController->fetchAllStudentsBySupervisorzId($supervisor->getId());
 ?>
 
 <!-- ======== sidebar-nav start =========== -->
@@ -43,7 +47,7 @@
               </a>
               <ul id="ddmenu_1" class="collapse show dropdown-nav">
                   <li>
-                      <a href="#" class="active">Dashboard </a>
+                      <a href="../dashboard/dashboard.php">Dashboard </a>
                   </li>
                   <li>
                       <a href="../profile/profile.php">Profile</a>
@@ -69,8 +73,8 @@
                   <span class="text">Students</span>
               </a>
               <ul id="ddmenu" class="collapse show dropdown-nav">
-                  <li>
-                      <a href="../assessments/assessment-form.php">Assessment Forms</a>
+                  <li> 
+                      <a href="assessment-form.php" class="active">Assessment Forms</a>
                   </li>
                   <li>
                       <a href="../reports/reports.php">Reports </a>
@@ -117,7 +121,7 @@
             <div class="row align-items-center">
               <div class="col-md-6">
                 <div class="title mb-30">
-                  <h2>Admin Dashboard</h2>
+                  <h2>Supervisor Dashboard</h2>
                 </div>
               </div>
               <!-- end col -->
@@ -126,10 +130,10 @@
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                       <li class="breadcrumb-item">
-                        <a href="#0">Dashboard</a>
+                        <a href="#0">Assessment Forms</a>
                       </li>
                       <li class="breadcrumb-item active" aria-current="page">
-                        admin
+                        Supervisor
                       </li>
                     </ol>
                   </nav>
@@ -153,17 +157,91 @@
                     align-items-center
                   "
                 >
-                  <div class="left">
-                    <h6 class="text-medium mb-30">Users</h6>
-                  </div>
-                  <div class="right">
-                    <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalId">Add A User</a>
-                    <!-- end select -->
-                  </div>
                 </div>
                 <!-- End Title -->
-                
-                
+                <div class="table-wrapper table-responsive">
+                    <p class="text-sm mb-20">
+                        Students being supervised by you.
+                    </p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <h6>First Name</h6>
+                                </th>
+                                <th>
+                                    <h6>Last Name</h6>
+                                </th>
+                                <th>
+                                    <h6>Reg Number</h6>
+                                </th>
+                                <th>
+                                    <h6>Program</h6>
+                                </th>
+                                <th>
+                                    <h6>Mobile Number</h6>
+                                </th>
+                                <th>
+                                    <h6>Email Address</h6>
+                                </th>
+                                <th>
+                                    <h6>Physical Address</h6>
+                                </th>
+                                <th>
+                                    <h6>Action</h6>
+                                </th>
+                            </tr>
+                            <!-- end table row-->
+                        </thead>
+                        <tbody>
+                            <?php
+                              foreach($students as $student){
+                                echo '
+                                  <tr>
+                                    <td>
+                                        <a href=""><p>'.$student->getFirstName().'</p></a>
+                                    </td>
+                                    <td class="min-width">
+                                        <a href=""><p>'.$student->getLastName().'</p></a>
+                                    </td>
+                                    <td class="min-width">
+                                        <a href=""><p>'.$student->getRegNumber().'</p></a>
+                                    </td>
+                                    <td class="min-width">
+                                        <a href="">
+                                        <p>HAI</p>
+                                        </a>
+                                    </td>
+                                    <td class="min-width">
+                                        <a href=""><p>'.$student->getPhoneNumber().'</p></a>
+                                    </td>
+                                    <td class="min-width">
+                                        <a href=""><p>'.$student->getEmailAddress().'</p></a>
+                                    </td>
+                                    <td class="max-width">
+                                        <a href=""><p>'.$student->getPhysicalAddress().'</p></a>
+                                    </td>
+                                    <td>
+                                        <div class="action justify-content-end">
+                                            <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown" aria-expanded="false">
+                                          <i class="lni lni-more-alt"></i>
+                                        </button>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
+                                                <li class="dropdown-item">
+                                                    <a href="assessment-form-detail.php?id='.$student->getId().'" class="text-gray">view assessment form</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                ';
+                              }
+                            ?>
+                        </tbody>
+                    </table>
+                    <!-- end table -->
+                </div>
+
               </div>
             </div>
             <!-- End Col -->

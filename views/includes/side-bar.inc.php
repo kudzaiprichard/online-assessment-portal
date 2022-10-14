@@ -40,7 +40,7 @@
                     <a href="#" > Dashboard </a>
                 </li>
                 <li>
-                    <a href="index.html"> Profile </a>
+                    <a href="../profile/profile.php"> Profile </a>
                 </li>
             </ul>
         </li>

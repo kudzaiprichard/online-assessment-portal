@@ -66,25 +66,44 @@
                       />
                   </svg>
                   </span>
-                  <span class="text">Manage Student</span>
+                  <span class="text">Students</span>
               </a>
               <ul id="ddmenu" class="collapse show dropdown-nav">
                   <li>
-                      <a href="../supervisor/supervisor.php">Supervisor</a>
+                      <a href="../assessments/assessment-form.php">Assessment Forms</a>
                   </li>
                   <li>
-                      <a href="../assessor/assessor.php">Assessors</a>
+                      <a href="../reports/reports.php">Reports </a>
                   </li>
                   <li>
-                      <a href="../students/students.php">Students </a>
+                      <a href="../tasks/tasks.php">Tasks </a>
                   </li>
               </ul>
           </li> 
+          <li class="nav-item">
+            <a href="../messages/messages.php">
+              <span class="icon">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 22 22"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.16667 19.25H12.8333C12.8333 20.2584 12.0083 21.0834 11 21.0834C9.99167 21.0834 9.16667 20.2584 9.16667 19.25ZM19.25 17.4167V18.3334H2.75V17.4167L4.58333 15.5834V10.0834C4.58333 7.24171 6.41667 4.76671 9.16667 3.94171V3.66671C9.16667 2.65837 9.99167 1.83337 11 1.83337C12.0083 1.83337 12.8333 2.65837 12.8333 3.66671V3.94171C15.5833 4.76671 17.4167 7.24171 17.4167 10.0834V15.5834L19.25 17.4167ZM15.5833 10.0834C15.5833 7.51671 13.5667 5.50004 11 5.50004C8.43333 5.50004 6.41667 7.51671 6.41667 10.0834V16.5H15.5833V10.0834Z"
+                  />
+                </svg>
+              </span>
+              <span class="text">Messages</span>
+            </a>
+          </li>
       </ul>
     </nav>
 </aside>
 <div class="overlay"></div>
 <!-- ======== end sidebar =========== -->
+
   <!-- ======== main-wrapper start =========== -->
 <main class="main-wrapper">
 <!-- ========== nav start ========== -->
@@ -125,102 +144,78 @@
             <!-- End Col -->
             <div class="col">
               <div class="card-style mb-30">
-                
-                <div class="table-responsive">
-                  <table class="table top-selling-table">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>
-                          <h6 class="text-sm text-medium">Email Address</h6>
-                        </th>
-                        <th class="min-width">
-                          <h6 class="text-sm text-medium">Account Type</h6>
-                        </th>
-                        <th class="min-width">
-                          <h6 class="text-sm text-medium">Registration Status</h6>
-                        </th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                        foreach ($users as $user){
-                          if($user->getPassword() == ""){$isRegistered = "Pending";}else{$isRegistered = "Completed";}
-                          echo '
-                                <tr>
-                                <td>
-                                  <div class="check-input-primary">
-                                    <input
-                                      class="form-check-input"
-                                      type="checkbox"
-                                      id="checkbox-1"
-                                    />
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="product">
-                                    <div class="image">
-                                      <img
-                                        src="assets/images/products/product-mini-1.jpg"
-                                        alt=""
-                                      />
-                                    </div>
-                                    <p class="text-sm">'.$user->getEmailAddress().'</p>
-                                  </div>
-                                </td>
-                                <td>
-                                  <p class="text-sm">'.$user->getAccountType().'</p>
-                                </td>
-                                ';
-
-                                if($isRegistered == "Pending"){
-                                  echo '
-                                  <td>
-                                    <span class="status-btn info-btn">'.$isRegistered.'</span>
-                                  </td>';
-                                }
-
-                                if($isRegistered == "Completed"){
-                                  echo '
-                                  <td>
-                                    <span class="status-btn success-btn">'.$isRegistered.'</span>
-                                  </td>';
-                                }
-
-                                echo '<td>
-                                  <a href="delete-user.php?id='.$user->getEmailAddress().'" class="text-danger">
-                                    <i class="lni lni-trash-can"></i>
-                                  </a>
-                                </td>
-                              </tr>
-                          ';
-                          // <div class="action justify-content-end">
-                          //           <button
-                          //             class="more-btn ml-10 dropdown-toggle"
-                          //             id="moreAction1"
-                          //             data-bs-toggle="dropdown"
-                          //             aria-expanded="false"
-                          //           >
-                          //             <i class="lni lni-more-alt"></i>
-                          //           </button>
-                          //           <ul
-                          //             class="dropdown-menu dropdown-menu-end"
-                          //             aria-labelledby="moreAction1"
-                          //           >
-                          //             <li class="dropdown-item">
-                          //               <a href="delete-user.php?id='.$user->getEmailAddress().'" class="text-gray">Remove</a>
-                          //             </li>
-                          //             <li class="dropdown-item">
-                          //               <a href="edit-user.php?id='.$user->getEmailAddress().'" class="text-gray">Edit</a>
-                          //             </li>
-                          //           </ul>
-                          //         </div>
-                        }
-                      ?>
-                    </tbody>
-                  </table>
+                <div
+                  class="
+                    title
+                    d-flex
+                    flex-wrap
+                    justify-content-between
+                    align-items-center
+                  "
+                >
+                  <div class="left">
+                    <h6 class="text-medium mb-30">Users</h6>
+                  </div>
+                  <div class="right">
+                    <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalId">Add A User</a>
+                    <!-- end select -->
+                  </div>
                 </div>
+                <!-- End Title -->
+                <!-- Area of assessment -->
+                <div class="container">
+                    <h4 class="p-2"><i>Development of business competence</i></h4>
+
+                    <div class="row">
+                        <div class="col-11">
+                            1. Demonstration of effective verbal skills
+                        </div>
+                        <div class="col">
+                                <select class="form-select form-select-sm" name="" id="">
+                                    <option selected>1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                    <option value="">4</option>
+                                    <option value="">5</option>
+                                </select>
+                        </div>
+                        <hr class="mt-2">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-11">
+                            1. Demonstration of effective verbal skills
+                        </div>
+                        <div class="col">
+                                <select class="form-select form-select-sm" name="" id="">
+                                    <option selected>1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                    <option value="">4</option>
+                                    <option value="">5</option>
+                                </select>
+                        </div>
+                        <hr class="mt-2">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-11">
+                            1. Demonstration of effective verbal skills
+                        </div>
+                        <div class="col">
+                                <select class="form-select form-select-sm" name="" id="">
+                                    <option selected>1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                    <option value="">4</option>
+                                    <option value="">5</option>
+                                </select>
+                        </div>
+                        <hr class="mt-2">
+                    </div>
+
+                </div>
+                
               </div>
             </div>
             <!-- End Col -->

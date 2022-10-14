@@ -1,17 +1,19 @@
 <?php 
-session_start();
-if(!isset($_SESSION["email_address"])) {
+    session_start();
+    if(!isset($_SESSION["email_address"])) {
     header("Location: ../../auth/signup.php");
     exit();
-}
-require_once("../../../controllers/adminController.php");
-// require_once("../../controllers/studentController.php");
-define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/views/");
-include(ROOT."includes/header.inc.php");
-// include(ROOT."includes/side-bar.inc.php");
+    }
+    require_once("../../../controllers/adminController.php");
+    // require_once("../../controllers/studentController.php");
+    define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/views/");
+    include(ROOT."includes/header.inc.php");
+    // include(ROOT."includes/side-bar.inc.php");
 
-$adminController = new AdminController();
-$assessors = $adminController->fetchAllAssessors();
+    $adminController = new AdminController();
+    $students = $adminController->fetchAllStudents();
+    $supervisors = $adminController->fetchAllSupervisors();
+    $assessors = $adminController->fetchAllAssessors();
 ?>
 
 <!-- ======== sidebar-nav start =========== -->
@@ -73,10 +75,10 @@ $assessors = $adminController->fetchAllAssessors();
                     <a href="../supervisor/supervisor.php">Supervisor</a>
                 </li>
                 <li>
-                    <a href="assessor.php" class="active" >Assessors</a>
+                    <a href="../assessor/assessor.php" >Assessors</a>
                 </li>
                 <li>
-                    <a href="../students/students.php">Students </a>
+                    <a href="students.php" class="active">Students </a>
                 </li>
             </ul>
         </li> 
@@ -111,7 +113,7 @@ $assessors = $adminController->fetchAllAssessors();
                     <a href="#0">Admin</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                    Supervisor
+                    Students
                     </li>
                 </ol>
                 </nav>
@@ -136,10 +138,10 @@ $assessors = $adminController->fetchAllAssessors();
                 "
             >
                 <div class="left">
-                <h6 class="text-medium mb-30">Assessors</h6>
+                <h6 class="text-medium mb-30">Students</h6>
                 </div>
                 <div class="right">
-                <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalId">Add Assessor</a>
+                <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalId">Add Student</a>
                 <!-- end select -->
                 </div>
             </div>
@@ -147,7 +149,7 @@ $assessors = $adminController->fetchAllAssessors();
             <!-- End Title -->
             <div class="table-wrapper table-responsive">
                 <p class="text-sm mb-20">
-                    Add,update,delete assessors in system.
+                    Add,update,delete students in system.
                 </p>
                 <table class="table">
                     <thead>
@@ -180,51 +182,51 @@ $assessors = $adminController->fetchAllAssessors();
                         <!-- end table row-->
                     </thead>
                     <tbody>
-                        <?php
-                           foreach ($assessors as $assessor){
-                            echo '
-                            <tr>
-                            <td>
-                                <a href=""><p>'.$assessor->getFirstName().'</p></a>
-                            </td>
-                            <td class="min-width">
-                                <a href=""><p>'.$assessor->getLastName().'</p></a>
-                            </td>
-                            <td class="min-width">
-                                <a href=""><p>'.$assessor->getRegNumber().'</p></a>
-                            </td>
-                            <td class="min-width">
-                                <a href="">
-                                <p>'.$assessor->getProgram().'</p>
-                                </a>
-                            </td>
-                            <td class="min-width">
-                                <a href=""><p>'.$assessor->getPhoneNumber().'</p></a>
-                            </td>
-                            <td class="min-width">
-                                <a href=""><p>'.$assessor->getEmailAddress().'</p></a>
-                            </td>
-                            <td class="max-width">
-                                <a href=""><p>'.$assessor->getPhysicalAddress().'</p></a>
-                            </td>
-                            <td>
-                                <div class="action justify-content-end">
-                                    <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="lni lni-more-alt"></i>
-                                </button>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
-                                        <li class="dropdown-item">
-                                            <a href="delete-user.php?id='.$assessor->getEmailAddress().'" class="text-gray">Delete</a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a href="#0" class="text-gray">Edit</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                            ';
-                           }
+                        <?php 
+                            foreach($students as $student) {
+                                echo '
+                                <tr>
+                                <td>
+                                    <a href=""><p>'.$student->getFirstName().'</p></a>
+                                </td>
+                                <td class="min-width">
+                                    <a href=""><p>'.$student->getLastName().'</p></a>
+                                </td>
+                                <td class="min-width">
+                                    <a href=""><p>'.$student->getRegNumber().'</p></a>
+                                </td>
+                                <td class="min-width">
+                                    <a href="">
+                                    <p>'.$student->getProgram().'</p>
+                                    </a>
+                                </td>
+                                <td class="min-width">
+                                    <a href=""><p>'.$student->getPhoneNumber().'</p></a>
+                                </td>
+                                <td class="min-width">
+                                    <a href=""><p>'.$student->getEmailAddress().'</p></a>
+                                </td>
+                                <td class="max-width">
+                                    <a href=""><p>'.$student->getPhysicalAddress().'</p></a>
+                                </td>
+                                <td>
+                                    <div class="action justify-content-end">
+                                        <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="lni lni-more-alt"></i>
+                                    </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
+                                            <li class="dropdown-item">
+                                                <a href="delete-user.php?id='.$student->getEmailAddress().'" class="text-gray">Delete</a>
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <a href="#0" class="text-gray">Edit</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                                ';
+                            }
                         ?>
                     </tbody>
                 </table>
@@ -238,17 +240,17 @@ $assessors = $adminController->fetchAllAssessors();
         <!-- End Row -->
     </section>
     <!-- ========== section end ========== -->
-<!-- Modal Body -->
+ <!-- Modal Body -->
     <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
     <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered " role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="modalTitleId">Add Assessor</h5>
+            <h5 class="modal-title" id="modalTitleId">Add A User</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form class="row g-3 needs-validation" action="save-assessor.php" novalidate>
+            <form class="row g-3 needs-validation" action="save-student.php" novalidate>
             <div class="col-md-4">
                 <label for="validationCustom01" class="form-label">First name</label>
                 <input type="text" name="first_name" class="form-control" id="validationCustom01" value="Mark" required>
@@ -303,7 +305,33 @@ $assessors = $adminController->fetchAllAssessors();
             <div class="col-md-3">
                 <label for="validationCustom04" class="form-label">Account Type</label>
                 <select class="form-select" id="validationCustom04" name="account_type" required >
-                    <option selected value="assessor">Assessor</option>
+                    <option selected value="student">Student</option>
+                </select>
+                <div class="invalid-feedback">
+                Please select a valid type.
+                </div>
+            </div>   
+            <div class="col-6">
+                <label for="validationCustom04" class="form-label">Assessor</label>
+                <select class="form-select" id="validationCustom04" name="assessor" required >
+                    <?php
+                        foreach($assessors as $assessor){
+                            echo '<option selected value="'.$assessor->getId().'">'.$assessor->getEmailAddress().'</option>';
+                        }
+                    ?>
+                </select>
+                <div class="invalid-feedback">
+                Please select a valid type.
+                </div>
+            </div>   
+            <div class="col-6">
+                <label for="validationCustom04" class="form-label">Supervisor</label>
+                <select class="form-select" id="validationCustom04" name="supervisor" required >
+                    <?php
+                        foreach($supervisors as $supervisor){
+                            echo '<option selected value="'.$supervisor->getId().'">'.$supervisor->getEmailAddress().'</option>';
+                        }
+                    ?>
                 </select>
                 <div class="invalid-feedback">
                 Please select a valid type.
@@ -312,7 +340,7 @@ $assessors = $adminController->fetchAllAssessors();
         </div>
         <div class="modal-footer mt-3">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button class="btn btn-primary" type="submit" value="create_user" name="create_user">Save Assessor</button>
+            <button class="btn btn-primary" type="submit" value="create_user" name="create_user">Save Student</button>
         </div>
         </form>
         </div>

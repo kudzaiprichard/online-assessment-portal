@@ -6,12 +6,12 @@ class StudentsServices extends UserServices{
     private $db;
     function __construct() {$this->db = new Connection("localhost", "root", "", "portal");}
     
-    function createStudent($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $assesor_id, $supervisor_id)
+    function createStudent($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $assessor_id, $supervisor_id)
     {
         $isCreated=false;
         $query = "INSERT into `student` (first_name, last_name, reg_number, program, phone_number, email_address, physical_address, assesor_id, supervisor_id) 
                                     VALUES ('$firstName', '$lastName', '$regNumber', '$program', 
-                                            '$phoneNumber', '$emailAddress',  '$physicalAddress',  '$assesor_id',  '$supervisor_id')";
+                                            '$phoneNumber', '$emailAddress',  '$physicalAddress',  '$assessor_id',  '$supervisor_id')";
         $con = $this->db->openConnection();
         if (mysqli_query($con, $query)) {
             $isCreated = True;
@@ -23,7 +23,24 @@ class StudentsServices extends UserServices{
     return $isCreated;
     }
 
-    function fetchStudents() {
+    function fetchAllStudentsBySupervisorzId($id){
+        $students = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `student` WHERE supervisor_id = '$id'";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $student = new Student($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address'],$row['assesor_id'],$row['supervisor_id']);
+            array_push($students, $student);
+            unset($student);
+        }
+
+        $con->close(); 
+        return $students;
+    }
+
+    function fetchAllStudents() {
         $students = array();
         $con = $this->db->openConnection();
         $query = "SELECT * FROM `student`";
@@ -31,7 +48,24 @@ class StudentsServices extends UserServices{
         $result = mysqli_query($con, $query);
 
         while($row = $result->fetch_assoc()) {
-            $student = new Student($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address'],$row['assessor_id'],$row['supervisor_id']);
+            $student = new Student($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address'],$row['assesor_id'],$row['supervisor_id']);
+            array_push($students, $student);
+            unset($student);
+        }
+
+        $con->close(); 
+        return $students;
+    }
+
+    function fetchAllStudentsBySupervisor($supervisor_id){
+        $students = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `student` WHERE `supervisor_id` ='$supervisor_id'";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $student = new Student($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address'],$row['assesor_id'],$row['supervisor_id']);
             array_push($students, $student);
             unset($student);
         }
@@ -67,6 +101,27 @@ class StudentsServices extends UserServices{
 
         $con->close(); 
         return $students[0];
+    }
+
+    function getLoggedInUserById($id) {
+        $users = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `student` WHERE `id` = '$id'";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $user = new Student($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address'],$row['assesor_id'],$row['supervisor_id']);
+            array_push($users, $user);
+            unset($user);
+        }
+        if(empty($users)){
+            $user = new Student(0,"No User Selected","No User Selected","No User Selected","No User Selected","No User Selected","No User Selected","No User Selected","No User Selected","No User Selected");
+            array_push($users, $user);
+            unset($user);
+        }
+        $con->close(); 
+        return $users[0];
     }
 
 }

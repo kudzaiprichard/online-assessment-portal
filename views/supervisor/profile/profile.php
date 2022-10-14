@@ -12,7 +12,7 @@ include(ROOT."includes/header.inc.php");
 // include(ROOT."includes/side-bar.inc.php");
 
 $adminController = new AdminController();
-$user = $adminController->getLoggedInUser($_SESSION["email_address"]);
+$users = $adminController->fetchAllUsers();
 ?>
 
 <!-- ======== sidebar-nav start =========== -->
@@ -67,20 +67,38 @@ $user = $adminController->getLoggedInUser($_SESSION["email_address"]);
                     />
                 </svg>
                 </span>
-                <span class="text">Manage Student</span>
+                <span class="text">Students</span>
             </a>
             <ul id="ddmenu" class="collapse show dropdown-nav">
                 <li>
-                    <a href="../supervisor/supervisor.php">Supervisor</a>
+                    <a href="../assessments/assessment-form.php">Assessment Forms</a>
                 </li>
                 <li>
-                    <a href="../assessor/assessor.php"  >Assessors</a>
+                    <a href="../reports/reports.php">Reports </a>
                 </li>
                 <li>
-                    <a href="../students/students.php">Students </a>
+                    <a href="../tasks/tasks.php">Tasks </a>
                 </li>
             </ul>
         </li> 
+        <li class="nav-item">
+        <a href="../messages/messages.php">
+            <span class="icon">
+            <svg
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                d="M9.16667 19.25H12.8333C12.8333 20.2584 12.0083 21.0834 11 21.0834C9.99167 21.0834 9.16667 20.2584 9.16667 19.25ZM19.25 17.4167V18.3334H2.75V17.4167L4.58333 15.5834V10.0834C4.58333 7.24171 6.41667 4.76671 9.16667 3.94171V3.66671C9.16667 2.65837 9.99167 1.83337 11 1.83337C12.0083 1.83337 12.8333 2.65837 12.8333 3.66671V3.94171C15.5833 4.76671 17.4167 7.24171 17.4167 10.0834V15.5834L19.25 17.4167ZM15.5833 10.0834C15.5833 7.51671 13.5667 5.50004 11 5.50004C8.43333 5.50004 6.41667 7.51671 6.41667 10.0834V16.5H15.5833V10.0834Z"
+                />
+            </svg>
+            </span>
+            <span class="text">Messages</span>
+        </a>
+        </li>
     </ul>
 </nav>
 </aside>
@@ -141,18 +159,47 @@ $user = $adminController->getLoggedInUser($_SESSION["email_address"]);
                 </button>
             </div>
             <div class="profile-info">
-                <div class="input-style-1">
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        placeholder="admin@example.com"
-                        value="<?php echo $user->getEmailAddress();?>"
-                    />
-                </div>
-                    <div class="input-style-1">
-                        <label>Password</label>
-                        <input type="password" value="<?php echo $user->getPassword();?>" />
+                <!-- <div class="d-flex align-items-center mb-30">
+                <div class="profile-image">
+                    <img src="assets/images/profile/profile-1.png" alt="" />
+                    <div class="update-image">
+                    <input type="file" />
+                    <label for=""
+                        ><i class="lni lni-cloud-upload"></i
+                    ></label>
                     </div>
+                </div>
+                <div class="profile-meta">
+                    <h5 class="text-bold text-dark mb-10">John Doe</h5>
+                    <p class="text-sm text-gray">Web & UI/UX Design</p>
+                </div>
+                </div> -->
+                <div class="input-style-1">
+                <label>Email</label>
+                <input
+                    type="email"
+                    placeholder="admin@example.com"
+                    value="admin@example.com"
+                />
+                </div>
+                <div class="input-style-1">
+                <label>Password</label>
+                <input type="password" value="admin@example.com" />
+                </div>
+                <div class="input-style-1">
+                <label>Website</label>
+                <input
+                    type="text"
+                    placeholder="www.uideck.com"
+                    value="www.uideck.com"
+                />
+                </div>
+                <div class="input-style-1">
+                <label>Bio</label>
+                <textarea placeholder="Write your bio here" rows="4">
+Crafted for – Business, Startup, SaaS, Apps, Event, Software, Agency, Resume and Portfolio. All Landing Pages comes with clean design and responsive layout. Also packed with all essential sections, elements, and features you need to launch</textarea
+                >
+                </div>
             </div>
             </div>
             <!-- end card -->
@@ -164,28 +211,67 @@ $user = $adminController->getLoggedInUser($_SESSION["email_address"]);
             <div class="title mb-30">
                 <h6>My Profile</h6>
             </div>
-            <form action="update-profile.php">
+            <form action="#">
                 <div class="row">
-                <div class="col-12 visually-hidden">
+                <div class="col-12">
                     <div class="input-style-1">
-                        <label>id</label>
-                        <input type="number" name="id" value="<?php echo $user->getId();?>"/>
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Full Name" />
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="input-style-1">
-                        <label>Email</label>
-                        <input type="email" name="email_address"/>
+                    <label>Email</label>
+                    <input type="email" placeholder="Email" />
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="input-style-1">
-                        <label>Password</label>
-                        <input type="password" name="password" />
+                    <label>Company</label>
+                    <input type="text" placeholder="Company" />
                     </div>
                 </div>
                 <div class="col-12">
-                    <button class="main-btn primary-btn btn-hover" type="submit" value="update" name="update">
+                    <div class="input-style-1">
+                    <label>Address</label>
+                    <input type="text" placeholder="Address" />
+                    </div>
+                </div>
+                <div class="col-xxl-4">
+                    <div class="input-style-1">
+                    <label>City</label>
+                    <input type="text" placeholder="City" />
+                    </div>
+                </div>
+                <div class="col-xxl-4">
+                    <div class="input-style-1">
+                    <label>Zip Code</label>
+                    <input type="text" placeholder="Zip Code" />
+                    </div>
+                </div>
+                <div class="col-xxl-4">
+                    <div class="select-style-1">
+                    <label>Country</label>
+                    <div class="select-position">
+                        <select class="light-bg">
+                        <option value="">Select category</option>
+                        <option value="">USA</option>
+                        <option value="">UK</option>
+                        <option value="">Canada</option>
+                        <option value="">India</option>
+                        <option value="">Bangladesh</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-style-1">
+                    <label>About Me</label>
+                    <textarea placeholder="Type here" rows="6"></textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="main-btn primary-btn btn-hover">
                     Update Profile
                     </button>
                 </div>

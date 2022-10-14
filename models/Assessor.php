@@ -10,7 +10,8 @@ class Assessor{
     private $emailAddress;
     private $physicalAddress;
 
-    function __construct($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $accountType) {
+    function __construct($id, $firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress) {
+        $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->regNumber = $regNumber;

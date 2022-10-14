@@ -9,7 +9,8 @@ class Supervisor{
     private $emailAddress;
     private $phoneNumber;
 
-    function __construct($firstName, $lastName, $position, $companyName, $emailAddress, $phoneNumber,$accountType) {
+    function __construct($id, $firstName, $lastName, $position, $companyName, $emailAddress, $phoneNumber) {
+        $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->position = $position;

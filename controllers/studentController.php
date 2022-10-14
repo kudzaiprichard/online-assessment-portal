@@ -1,7 +1,7 @@
 <?php
 define('D',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/models/");
-define('R',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/services/");
-include(R."userServices.php");
+define('RX',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/services/");
+require_once(RX."userServices.php");
 
 class StudentController{
     private $userServices;
@@ -24,6 +24,10 @@ class StudentController{
     }
 
     function deleteStudentByEmail($emailAddress) {return $this->deleteStudentByEmail($emailAddress);}
+
+    function getLoggedInUserById($id){
+        return $this->studentServices->getLoggedInUserById($id);
+    }
 
 }
 ?>

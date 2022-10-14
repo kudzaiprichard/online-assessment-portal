@@ -1,7 +1,6 @@
 <?php
-// require('Connection.php');
 define('A',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/models/");
-include(A."UserBaseClass.php");
+require_once(A."UserBaseClass.php");
 class UserServices{
     private $db;
     function __construct() { $this->db = new Connection("localhost", "root", "", "portal");}
@@ -34,7 +33,7 @@ class UserServices{
         $result1 = $con->query($query1);
 
         //Delete data from the assessor also
-        $query2 = "DELETE FROM assessor WHERE email_address='$emailAddress'";
+        $query2 = "DELETE FROM `assesor` WHERE `assesor`.`email_address`='$emailAddress'";
         $result2 = $con->query($query2);
 
         //Delete data from the supervisor also
@@ -45,8 +44,9 @@ class UserServices{
 
     function saveUser($isAdmin,$password=null,$emailAddress=null,$accountType=null) {
         $isCreated = false;
-        $con = $this->db->openConnection();
-
+        //Todo: need to fix the connection
+        $db = new Connection("localhost", "root", "", "portal");
+        $con = $db->openConnection();
         if($isAdmin) {
             $query = "INSERT into `user` (email_address, password, account_type) 
                                     VALUES ('$emailAddress', '$password',  '$accountType')";
@@ -77,18 +77,17 @@ class UserServices{
     
     function login($emailAddress, $password) {
         $con = $this->db->openConnection();
-        $isLoggedIn = False;
 
         $query = "SELECT * FROM `user` WHERE `email_address`= '$emailAddress' AND `password` = '" . md5($password) . "'";
         $result = mysqli_query($con, $query);
         $rows = mysqli_num_rows($result);
 
         if ($rows == 1) {
-            $isLoggedIn = True;
+            $row = $result->fetch_assoc();
         }
 
         $con->close(); 
-        return $isLoggedIn;
+        return $row['account_type'];
     }
 
     function logout() {
@@ -131,12 +130,11 @@ class UserServices{
         return $isUpdated;
     }
 
-    function updateUser($id, $emailAddress,$password,$accountType){
+    function updateUser($id, $emailAddress,$password){
         $isUpdated = false;
         $con = $this->db->openConnection();
         $query = "UPDATE `user` SET `email_address`='$emailAddress',
-                                    `password`='" . md5($password) . "',
-                                    `account_type`='$accountType' 
+                                    `password`='" . md5($password) . "'
                                     WHERE `id`='$id'";
         if (mysqli_query($con, $query)) {
             $isUpdated = true;

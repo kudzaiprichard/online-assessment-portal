@@ -12,7 +12,8 @@ class Student{
     private $assessor;
     private $supervisor;
 
-    function __construct($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $assessor, $supervisor) {
+    function __construct($id,$firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $assessor, $supervisor) {
+        $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->regNumber = $regNumber;

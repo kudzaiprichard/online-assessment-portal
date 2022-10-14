@@ -1,5 +1,5 @@
 <?php
-require('Connection.php');
+require_once('Connection.php');
 define('R',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/services/");
 include(R."userServices.php");
 include(R."studentsServices.php");
@@ -23,17 +23,43 @@ class AdminController{
     {
         return $this->userServices->fetchAllUsers();
     } 
+    
+    function fetchAllStudents()
+    {
+        return $this->studentServices->fetchAllStudents();
+    }
+    
+
+    function fetchAllSupervisors()
+    {
+        return $this->supervisorServices->fetchAllSupervisors();
+    }
+
+    function fetchAllAssessors()
+    {
+        return $this->assessorServices->fetchAllAssessors();
+    }
 
     function deleteUser($emailAddress)
     {
+        $user = $this->userServices->getLoggedInUser($emailAddress);
+        if($user->getEmailAddress == $emailAddress){return 0;}
         return $this->userServices->deleteUser($emailAddress);
     } 
 
-    function addStudent($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress)
+    function addStudent($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $assessor_id, $supervisor_id )
     {
-        $assessor = $this->assessorServices->getAssessorByEmail($emailAddress);
-        $supervisor = $this->assessorServices->getAssessorByEmail($emailAddress);
-        return $this->studentServices->createStudent($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $assessor->getId(), $supervisor->getId());
+        return $this->studentServices->createStudent($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $assessor_id, $supervisor_id );
+    }
+    
+    function addSupervisor($firstName, $lastName, $position, $companyName, $phoneNumber, $emailAddress)
+    {
+        return $this->supervisorServices->saveSupervisor($firstName, $lastName, $position, $companyName, $phoneNumber, $emailAddress);
+    }
+
+    function addAssessor($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress)
+    {
+        return $this->assessorServices->saveAssessor($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress);
     }
 
     function saveAsUser($isAdmin,$password=null,$emailAddress=null,$accountType=null)
@@ -53,7 +79,12 @@ class AdminController{
 
     function getLoggedInUser($emailAddress)
     {
-        return $this->userServices->getLoggedInUser($emailAddress);
+        $userServices = new UserServices();
+        return $userServices->getLoggedInUser($emailAddress);
+    }
+
+    function updateUser($id,$emailAddress, $password){
+        return $this->userServices->updateUser($id,$emailAddress, $password);
     }
 
 }
