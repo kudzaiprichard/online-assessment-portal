@@ -5,14 +5,16 @@ if(!isset($_SESSION["email_address"])) {
     header("Location: ../../auth/signup.php");
     exit();
 }
-require_once("../../../controllers/adminController.php");
-// require_once("../../controllers/studentController.php");
+require_once("../../../controllers/supervisorController.php");
 define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/views/");
 include(ROOT."includes/header.inc.php");
-// include(ROOT."includes/side-bar.inc.php");
 
-$adminController = new AdminController();
-$users = $adminController->fetchAllUsers();
+$supervisorController = new SupervisorController();
+$supervisor = $supervisorController->getLoggedInUser($_SESSION["email_address"]);
+$supervisorSuper = $supervisorController->getLoggedInUser2($_SESSION["email_address"]);
+$_SESSION["supervisor_id"] = $supervisor->getId();
+$_SESSION["user_id"] = $supervisorSuper->getId();
+
 ?>
 
 <!-- ======== sidebar-nav start =========== -->
@@ -144,134 +146,109 @@ $users = $adminController->fetchAllUsers();
         <div class="row">
         <div class="col-lg-6">
             <div class="card-style settings-card-1 mb-30">
-            <div
-                class="
-                title
-                mb-30
-                d-flex
-                justify-content-between
-                align-items-center
-                "
-            >
-                <h6>My Profile</h6>
-                <button class="border-0 bg-transparent">
-                <i class="lni lni-pencil-alt"></i>
-                </button>
-            </div>
-            <div class="profile-info">
-                <!-- <div class="d-flex align-items-center mb-30">
-                <div class="profile-image">
-                    <img src="assets/images/profile/profile-1.png" alt="" />
-                    <div class="update-image">
-                    <input type="file" />
-                    <label for=""
-                        ><i class="lni lni-cloud-upload"></i
-                    ></label>
+                <div
+                    class="
+                    title
+                    mb-30
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    "
+                >
+                    <h6>My Profile</h6>
+                    <button class="border-0 bg-transparent">
+                    <i class="lni lni-pencil-alt"></i>
+                    </button>
+                </div>
+                <div class="profile-info">
+                    <div class="input-style-1">
+                        <label>First Name</label>
+                        <?php echo '<input type="text" value="'.$supervisor->getFirstName().'" disabled/>'?>
+                    </div>
+                    <div class="input-style-1">
+                        <label>Last Name</label>
+                        <?php echo '<input type="text" value="'.$supervisor->getLastName().'" disabled/>'?>
+                    </div>
+
+                    <div class="input-style-1">
+                        <label>Email</label>
+                        <?php echo'<input type="email" placeholder="'.$supervisor->getEmailAddress().'" value="'.$supervisor->getEmailAddress().'" disabled/>';?>
+                    </div>
+                    <div class="input-style-1">
+                        <label>Password</label>
+                        <?php echo '<input type="password" value="'.$supervisorSuper->getPassword().'" disabled/>'?>
+                    </div>
+                
+                    <div class="input-style-1">
+                        <label>Company Name</label>
+                        <?php echo '<input type="text" value="'.$supervisor->getCompanyName().'" disabled/>'?>
+                    </div>
+                    <div class="input-style-1">
+                        <label>Position</label>
+                        <?php echo '<input type="text" value="'.$supervisor->getPosition().'" disabled/>'?>
+                    </div>
+                    <div class="input-style-1">
+                        <label>Mobile Number</label>
+                        <?php echo '<input type="text" value="'.$supervisor->getPhoneNumber().'" disabled/>'?>
                     </div>
                 </div>
-                <div class="profile-meta">
-                    <h5 class="text-bold text-dark mb-10">John Doe</h5>
-                    <p class="text-sm text-gray">Web & UI/UX Design</p>
-                </div>
-                </div> -->
-                <div class="input-style-1">
-                <label>Email</label>
-                <input
-                    type="email"
-                    placeholder="admin@example.com"
-                    value="admin@example.com"
-                />
-                </div>
-                <div class="input-style-1">
-                <label>Password</label>
-                <input type="password" value="admin@example.com" />
-                </div>
-                <div class="input-style-1">
-                <label>Website</label>
-                <input
-                    type="text"
-                    placeholder="www.uideck.com"
-                    value="www.uideck.com"
-                />
-                </div>
-                <div class="input-style-1">
-                <label>Bio</label>
-                <textarea placeholder="Write your bio here" rows="4">
-Crafted for – Business, Startup, SaaS, Apps, Event, Software, Agency, Resume and Portfolio. All Landing Pages comes with clean design and responsive layout. Also packed with all essential sections, elements, and features you need to launch</textarea
-                >
-                </div>
-            </div>
             </div>
             <!-- end card -->
         </div>
         <!-- end col -->
-
         <div class="col-lg-6">
             <div class="card-style settings-card-2 mb-30">
             <div class="title mb-30">
                 <h6>My Profile</h6>
             </div>
-            <form action="#">
+            <form action="update-profile.php">
                 <div class="row">
                 <div class="col-12">
                     <div class="input-style-1">
-                    <label>Full Name</label>
-                    <input type="text" placeholder="Full Name" />
+                    <label>First Name</label>
+                    <?php echo '<input type="text" name="first_name" value="'.$supervisor->getFirstName().'"/>';?>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="input-style-1">
-                    <label>Email</label>
-                    <input type="email" placeholder="Email" />
+                    <label>Last Name</label>
+                    <?php echo'<input type="text" name="last_name" value="'.$supervisor->getLastName().'"/>';?>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="input-style-1">
+                    <label>Email Address</label>
+                    <?php echo '<input type="email" name="email_address" value="'.$supervisor->getEmailAddress().'"/>';?>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="input-style-1">
-                    <label>Company</label>
-                    <input type="text" placeholder="Company" />
+                    <label>Password</label>
+                    <?php echo '<input type="password" name="password" value="'.$supervisorSuper->getPassword().'"/>';?>
                     </div>
                 </div>
+
                 <div class="col-12">
                     <div class="input-style-1">
-                    <label>Address</label>
-                    <input type="text" placeholder="Address" />
+                    <label>Company Name</label>
+                    <?php echo '<input type="text" name="company_name" value="'.$supervisor->getCompanyName().'"/>';?>
                     </div>
                 </div>
                 <div class="col-xxl-4">
                     <div class="input-style-1">
-                    <label>City</label>
-                    <input type="text" placeholder="City" />
+                    <label>Position</label>
+                    <?php echo'<input type="text" name="position" value="'.$supervisor->getPosition().'"/>';?>
                     </div>
                 </div>
                 <div class="col-xxl-4">
                     <div class="input-style-1">
-                    <label>Zip Code</label>
-                    <input type="text" placeholder="Zip Code" />
-                    </div>
-                </div>
-                <div class="col-xxl-4">
-                    <div class="select-style-1">
-                    <label>Country</label>
-                    <div class="select-position">
-                        <select class="light-bg">
-                        <option value="">Select category</option>
-                        <option value="">USA</option>
-                        <option value="">UK</option>
-                        <option value="">Canada</option>
-                        <option value="">India</option>
-                        <option value="">Bangladesh</option>
-                        </select>
-                    </div>
+                    <label>Mobile Number</label>
+                    <?php echo'<input type="text" name="mobile_number" value="'.$supervisor->getPhoneNumber().'"/>';?>
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="input-style-1">
-                    <label>About Me</label>
-                    <textarea placeholder="Type here" rows="6"></textarea>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <button class="main-btn primary-btn btn-hover">
+                    <button type="submit" name="submit" class="main-btn primary-btn btn-hover">
                     Update Profile
                     </button>
                 </div>

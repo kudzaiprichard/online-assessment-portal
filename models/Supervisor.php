@@ -1,5 +1,5 @@
 <?php
-class Supervisor{
+class Supervisor extends UserBaseClass{
     private $db; 
     private $id;
     private $firstName;

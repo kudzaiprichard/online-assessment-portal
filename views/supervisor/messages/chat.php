@@ -1,17 +1,26 @@
 <?php 
     session_start();
     if(!isset($_SESSION["email_address"])) {
-      header("Location: ../../auth/signup.php");
-      exit();
+        header("Location: ../../auth/signup.php");
+        exit();
     }
     require_once("../../../controllers/adminController.php");
-    // require_once("../../controllers/studentController.php");
+    require_once("../../../controllers/studentController.php");
+    require_once("../../../controllers/supervisorController.php");
+
     define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/views/");
     include(ROOT."includes/header.inc.php");
-    // include(ROOT."includes/side-bar.inc.php");
 
-    $adminController = new AdminController();
-    $users = $adminController->fetchAllUsers();
+    $supervisorController = new SupervisorController();
+    $studentController = new StudentController();
+
+    if(isset($_GET['id'])){
+        $chatId = $_GET['id'];
+    }
+
+    $supervisor = $supervisorController->getLoggedInUser($_SESSION["email_address"]);
+    $chat = $supervisorController->fetchChatById($chatId);
+    $messages = $supervisorController->fetchAllMessagesBySupervisorsId($chat->getId());
 ?>
 
 <!-- ======== sidebar-nav start =========== -->
@@ -26,12 +35,12 @@
             <li class="nav-item nav-item-has-children">
                 <a href="#0" data-bs-toggle="collapse" data-bs-target="#ddmenu_1" aria-controls="ddmenu_1" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="icon">
-                  <svg width="22" height="22" viewBox="0 0 22 22">
-                      <path
-                      d="M17.4167 4.58333V6.41667H13.75V4.58333H17.4167ZM8.25 4.58333V10.0833H4.58333V4.58333H8.25ZM17.4167 11.9167V17.4167H13.75V11.9167H17.4167ZM8.25 15.5833V17.4167H4.58333V15.5833H8.25ZM19.25 2.75H11.9167V8.25H19.25V2.75ZM10.0833 2.75H2.75V11.9167H10.0833V2.75ZM19.25 10.0833H11.9167V19.25H19.25V10.0833ZM10.0833 13.75H2.75V19.25H10.0833V13.75Z"
-                      />
-                  </svg>
-                  </span>
+                    <svg width="22" height="22" viewBox="0 0 22 22">
+                        <path
+                        d="M17.4167 4.58333V6.41667H13.75V4.58333H17.4167ZM8.25 4.58333V10.0833H4.58333V4.58333H8.25ZM17.4167 11.9167V17.4167H13.75V11.9167H17.4167ZM8.25 15.5833V17.4167H4.58333V15.5833H8.25ZM19.25 2.75H11.9167V8.25H19.25V2.75ZM10.0833 2.75H2.75V11.9167H10.0833V2.75ZM19.25 10.0833H11.9167V19.25H19.25V10.0833ZM10.0833 13.75H2.75V19.25H10.0833V13.75Z"
+                        />
+                    </svg>
+                    </span>
                     <span class="text">Dashboard</span>
                 </a>
                 <ul id="ddmenu_1" class="collapse show dropdown-nav">
@@ -46,12 +55,12 @@
             <li class="nav-item nav-item-has-children">
                 <a href="#0" data-bs-toggle="collapse" data-bs-target="#ddmenu" aria-controls="ddmenu" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="icon">
-                  <svg width="22" height="22" viewBox="0 0 22 22">
-                      <path
-                      d="M17.4167 4.58333V6.41667H13.75V4.58333H17.4167ZM8.25 4.58333V10.0833H4.58333V4.58333H8.25ZM17.4167 11.9167V17.4167H13.75V11.9167H17.4167ZM8.25 15.5833V17.4167H4.58333V15.5833H8.25ZM19.25 2.75H11.9167V8.25H19.25V2.75ZM10.0833 2.75H2.75V11.9167H10.0833V2.75ZM19.25 10.0833H11.9167V19.25H19.25V10.0833ZM10.0833 13.75H2.75V19.25H10.0833V13.75Z"
-                      />
-                  </svg>
-                  </span>
+                    <svg width="22" height="22" viewBox="0 0 22 22">
+                        <path
+                        d="M17.4167 4.58333V6.41667H13.75V4.58333H17.4167ZM8.25 4.58333V10.0833H4.58333V4.58333H8.25ZM17.4167 11.9167V17.4167H13.75V11.9167H17.4167ZM8.25 15.5833V17.4167H4.58333V15.5833H8.25ZM19.25 2.75H11.9167V8.25H19.25V2.75ZM10.0833 2.75H2.75V11.9167H10.0833V2.75ZM19.25 10.0833H11.9167V19.25H19.25V10.0833ZM10.0833 13.75H2.75V19.25H10.0833V13.75Z"
+                        />
+                    </svg>
+                    </span>
                     <span class="text">Students</span>
                 </a>
                 <ul id="ddmenu" class="collapse show dropdown-nav">
@@ -127,60 +136,80 @@
 
             </div>
 
-            <div class="card-style">
-                    <div class="single-notification border-0 ml-5 pl-5">
-                        <div class="notification ml-5 pl-5">
-                            <div class="image warning-bg">
-                                <span>K</span>
-                            </div>
-                            <a href="#0" class="content">
-                                <h6>Kudai Matizirofa</h6>
-                                <p class="text-sm text-gray">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tortor, odio viverra malesuada sapien dui. Penatibus id amet lectus facilisi tincidunt at non.
-                                </p>
-                            </a>
-                        </div>
+            <div class="card-style ">
+                    <div class="chat-scroll">
+                    <?php
+                        foreach($messages as $message){
+                            if($message->getUser() == $supervisor->getEmailAddress()){
+                                echo '
+                                <div class="single-notification border-0 ml-5 pl-5" row>
+                                    <div class="col-sm-1">
+                                    </div>
+                                    <div class="notification  col">
+                                        <div class="image warning-bg">
+                                            <span>K</span>
+                                        </div>
+                                        <a href="#0" class="content">
+                                            <h6>'.$message->getUser().'</h6>
+                                            <p class="text-sm text-gray">
+                                                '.$message->getMessage().'
+                                            </p>
+                                        </a>
+                                    </div>                               
+                                ';
+                                
+                                echo'
+                                </div>
+                                ';
+                            }else{
+                                echo '
+                                <!-- end single notification -->
+                                <div class="single-notification border-0 ">
+                                    <div class="notification">
+                                        <div class="image secondary-bg">
+                                            <span>V</span>
+                                        </div>
+                                        <a href="#0" class="content">
+                                            <h6>'.$message->getUser().'</h6>
+                                            <p class="text-sm text-gray">
+                                            '.$message->getMessage().'
+                                                <hr width="800px;">
+                                            </p>
+                                        </a>
+                                    </div>
+                                ';
+                                if($message->getStatus() != "seen"){
+                                    echo '
+                                    <div class="mr-5 pr-5">
+                                        <i class="lni lni-checkmark-circle"></i>
+                                    </div>';
+                                }
+                                echo'
+                                </div>
+                                ';
+                            }
+                        }
+                    ?>
                     </div>
-
-                    <!-- end single notification -->
-                    <div class="single-notification border-0 ">
-                        <div class="notification">
-                            <div class="image secondary-bg">
-                                <span>V</span>
-                            </div>
-                            <a href="#0" class="content">
-                                <h6>Vivamus tortor</h6>
-                                <p class="text-sm text-gray">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tortor, odio viverra malesuada sapien dui. Penatibus id amet lectus facilisi tincidunt at non.
-                                </p>
-                            </a>
-                        </div>
-                        <div class="action">
-                            <i class="lni lni-checkmark-circle"></i>
-                        </div>
-                    </div>
-
-                    <div class="single-notification border-0 ml-5 pl-5">
-                        <div class="notification ml-5 pl-5">
-                            <div class="image warning-bg">
-                                <span>K</span>
-                            </div>
-                            <a href="#0" class="content">
-                                <h6>Kudai Matizirofa</h6>
-                                <p class="text-sm text-gray">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tortor, odio viverra malesuada sapien dui. Penatibus id amet lectus facilisi tincidunt at non.
-                                </p>
-                            </a>
-                        </div>
-                    </div>
-                    <hr>
-                    <form action="#" class="mt-4">
+                    <!-- <hr> -->
+                    <?php
+                        echo '<form action="send-message.php" class="mt-4 bg-dark p-3" >';
+                    ?>
                         <div class="row">
+                            <div class="col-10 visually-hidden">
+                                <?php echo '<input type="text" class="form-control"  name="chat_id" value="'.$chat->getId().'"/>';?>
+                            </div>
+                            <div class="col-10 visually-hidden">
+                                <?php echo '<input type="text" class="form-control"  name="user" value="'.$supervisor->getEmailAddress().'"/>';?>
+                            </div>
                             <div class="col-10">
-                                <input type="text" class="form-control" placeholder="Message..." />
+                                <input type="text" class="form-control" placeholder="Message..." name="message"/>
                             </div>
                             <div class="col">
                                 <button type="submit" class="btn btn-primary"><i class="lni lni-telegram-original"></i></button>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary"><i class="lni lni-link"></i></button>
                             </div>
                         </div>
                     </form>

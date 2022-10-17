@@ -11,17 +11,16 @@ require_once("../../../controllers/supervisorController.php");
 define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/views/");
 include(ROOT."includes/header.inc.php");
 // include(ROOT."includes/side-bar.inc.php");
-if(isset($_GET['id'])){
-    $studentId = $_GET['id'];
-    $supervisorController = new SupervisorController();
-    $studentController = new StudentController();
+if(isset($_GET['id'])){$studentId = $_GET['id'];}else{$studentId = 0;}
+$supervisorController = new SupervisorController();
+$studentController = new StudentController();
 
-    $supervisor = $supervisorController->getLoggedInUser($_SESSION["email_address"]);
-    $reports = $supervisorController->fetchReportsByUserIdAndSupervisorId($studentId,$supervisor->getId());
-    $student = $studentController->getLoggedInUserById($studentId);
-    $students = $supervisorController->fetchAllStudentsBySupervisorzId($supervisor->getId());
-}
+$supervisor = $supervisorController->getLoggedInUser($_SESSION["email_address"]);
+$reports = $supervisorController->fetchReportsByUserIdAndSupervisorId($studentId,$supervisor->getId());
+$student = $studentController->getLoggedInUserById($studentId);
+$students = $supervisorController->fetchAllStudentsBySupervisorsId($supervisor->getId());
 
+$_SESSION["student_id"] = $studentId;
 ?>
 
 <!-- ======== sidebar-nav start =========== -->
@@ -201,14 +200,12 @@ if(isset($_GET['id'])){
                 <div class="mb-30">
                     <div class="row">
                         <div class="col-10">
-                            <p class="text-sm mb-20">
-                                For <b><?php echo $student->getFirstName(), " "; echo $student->getLastName();?></b>. click task to see details
-                            </p>
-                        </div>
-                        <div class="col">
-                            <p class="text-sm mb-20">
-                                <a href="" class="btn btn-outline-primary">Add Task</a>
-                            </p>
+                        <p class="text-sm mb-20">
+                            For <b><?php
+                                $student = $studentController->getLoggedInUserById($studentId);
+                                echo $student->getFirstName(), " "; echo $student->getLastName();
+                                ?></b>. click task to see details
+                        </p>
                         </div>
                     </div>
                     <div class="table-wrapper table-responsive">
@@ -244,30 +241,45 @@ if(isset($_GET['id'])){
                                             <a href="tasks-details.php">'.$report->getReport().'</a>
                                         </p>
                                     </td>
+                                ';
+                                if($report->getApproved() == "rejected"){
+                                    echo'
+                                    <td class="min-width">
+                                        <span class="status-btn close-btn">'.$report->getApproved().'</span>
+                                    </td>
+                                    ';
+                                }
+                                if($report->getApproved() == "accepted"){
+                                    echo'
                                     <td class="min-width">
                                         <span class="status-btn success-btn">'.$report->getApproved().'</span>
                                     </td>
+                                    ';
+                                }
+                                echo'
                                     <td class="min-width">
                                         <div class="action justify-content-end">
+                                            
                                             <button class="edit">
                                                 <i class="lni lni-eye"></i>
                                             </button>
                                             <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="lni lni-more-alt"></i>
+                                                <i class="lni lni-more-alt"></i>
                                             </button>
                                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
                                                     <li class="dropdown-item">
-                                                        <a href="#0" class="text-gray">Approve</a>
+                                                        <a href="approve-reject-report.php?approve='.$report->getId().'" class="text-gray">Approve</a>
                                                     </li>
                                                     <li class="dropdown-item">
-                                                        <a href="#0" class="text-gray">Reject</a>
+                                                        <a href="approve-reject-report.php?reject='.$report->getId().'" class="text-gray">Reject</a>
                                                     </li>
                                                 </ul>
                                         </div>
                                     </td>
                                 </tr>
                                 <!-- end table row -->
-                                        ';
+                                ';
+                                
                                     }
                                 ?>
                             </tbody>

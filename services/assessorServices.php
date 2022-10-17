@@ -1,5 +1,5 @@
 <?php
-include(A."Assessor.php");
+require_once(A."Assessor.php");
 
 class AssessorService{
     private $db;
@@ -52,6 +52,23 @@ class AssessorService{
         $Assessors = array();
         $con = $this->db->openConnection();
         $query = "SELECT * FROM `assesor` WHERE `email_address` = '$emailAddress'";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $Assessor = new Assessor($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address']);
+            array_push($Assessors, $Assessor);
+            unset($Assessor);
+        }
+
+        $con->close(); 
+        return $Assessors[0];
+    }
+
+    function fetchAssessorsById($id){
+        $Assessors = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `assesor` WHERE `id` = '$id'";
 
         $result = mysqli_query($con, $query);
 

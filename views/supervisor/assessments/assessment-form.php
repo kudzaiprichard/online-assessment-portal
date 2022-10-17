@@ -15,7 +15,7 @@
     $studentController = new StudentController();
 
     $supervisor = $supervisorController->getLoggedInUser($_SESSION["email_address"]);
-    $students = $supervisorController->fetchAllStudentsBySupervisorzId($supervisor->getId());
+    $students = $supervisorController->fetchAllStudentsBySupervisorsId($supervisor->getId());
 ?>
 
 <!-- ======== sidebar-nav start =========== -->
@@ -228,7 +228,7 @@
                                         </button>
                                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
                                                 <li class="dropdown-item">
-                                                    <a href="assessment-form-detail.php?id='.$student->getId().'" class="text-gray">view assessment form</a>
+                                                    <a href="check-assessment-form.php?id='.$student->getId().'" class="text-gray">view assessment form</a>
                                                 </li>
                                             </ul>
                                         </div>

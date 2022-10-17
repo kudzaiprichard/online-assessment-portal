@@ -116,7 +116,7 @@ class StudentsServices extends UserServices{
             unset($user);
         }
         if(empty($users)){
-            $user = new Student(0,"No User Selected","No User Selected","No User Selected","No User Selected","No User Selected","No User Selected","No User Selected","No User Selected","No User Selected");
+            $user = new Student(0,"No user selected"," "," "," "," "," "," "," "," ");
             array_push($users, $user);
             unset($user);
         }

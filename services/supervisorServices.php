@@ -55,7 +55,17 @@ class SupervisorService{
         return $users[0];
     }
 
-    function updateSupervisorById($id) {}
+    function updateSupervisorById($supervisorId,$firstName,$lastName,$emailAddress,$companyName,$position,$mobileNumber) {
+        $isUpdated = false;
+        $query = "UPDATE `supervisor` SET `first_name`='$firstName', `last_name`='$lastName', `position`='$position', `company_name`='$companyName', `phone_number`='$mobileNumber', `email_address`='$emailAddress' WHERE `id`='$supervisorId'";
+        $con = $this->db->openConnection();
+        if (mysqli_query($con, $query)) {
+            $isUpdated = True;
+        }
+        $con->close();
+
+    return $isUpdated;
+    }
 
     function deleteSupervisorById($id) {}
 

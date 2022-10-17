@@ -226,7 +226,7 @@
                                     </button>
                                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
                                             <li class="dropdown-item">
-                                                <a href="../assessments/assessment-form-detail.php?id='.$student->getId().'" class="text-gray">view assessment form</a>
+                                                <a href="../assessments/check-assessment-form.php?id='.$student->getId().'" class="text-gray">view assessment form</a>
                                             </li>
                                             <li class="dropdown-item">
                                                 <a href="../reports/reports.php?id='.$student->getId().'" class="text-gray">view reports</a>

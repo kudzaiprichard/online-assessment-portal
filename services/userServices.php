@@ -131,13 +131,17 @@ class UserServices{
     }
 
     function updateUser($id, $emailAddress,$password){
+        session_destroy();
         $isUpdated = false;
         $con = $this->db->openConnection();
         $query = "UPDATE `user` SET `email_address`='$emailAddress',
                                     `password`='" . md5($password) . "'
                                     WHERE `id`='$id'";
-        if (mysqli_query($con, $query)) {
+
+        if (mysqli_query($con, $query) or die(mysqli_error($con))) {
             $isUpdated = true;
+            session_start();
+            $_SESSION['email_address'] = $emailAddress;
         } 
         $con->close(); 
         return $isUpdated;

@@ -17,6 +17,7 @@ if(isset($_GET['id'])){
     $supervisor = $supervisorController->getLoggedInUser($_SESSION["email_address"]);
     $tasks = $supervisorController->fetchTasksByUserIdAndSupervisorId($studentId,$supervisor->getId());
     $student = $studentController->getLoggedInUserById($studentId);
+    $_SESSION["student_id"] = $studentId;
 }
 ?>
 
@@ -150,9 +151,9 @@ if(isset($_GET['id'])){
                     <div class="col-lg-12">
                         <div class="card-style mb-30">
                             <h6 class="mb-10 row">
-                                <div class="col-10">Tasks</div>
+                                <div class="col">Tasks</div>
                                 <div class="col">
-                                    <a href="" class="btn btn-outline-primary">Add Task</a>
+                                    <a href="" class="btn btn-outline-primary float-end" data-bs-toggle="modal" data-bs-target="#modalId">Add Task</a>
                                 </div>
                             </h6>
                             <p class="text-sm mb-20">
@@ -251,13 +252,13 @@ if(isset($_GET['id'])){
                                                 </button>
                                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
                                                         <li class="dropdown-item">
-                                                            <a href="#0" class="text-gray">Comment & Rate</a>
+                                                            <a href="comment-rate-form.php?id='.$task->getId().'" class="text-gray" >Comment & Rate</a>
                                                         </li>
                                                         <li class="dropdown-item">
-                                                            <a href="#0" class="text-gray">Remove</a>
+                                                            <a href="delete-task.php?id='.$task->getId().'" class="text-gray">Remove</a>
                                                         </li>
                                                         <li class="dropdown-item">
-                                                            <a href="#0" class="text-gray">Edit</a>
+                                                            <a href="edit-task-form.php?id='.$task->getId().'" class="text-gray">Edit</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -280,6 +281,46 @@ if(isset($_GET['id'])){
     </section>
     <!-- ========== section end ========== -->
 
+<!-- Modal Body -->
+<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+<div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleId">Add Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="row g-3 needs-validation" action="add-task.php" novalidate>
+                <div class="modal-body">
+                    <div class="col m-2 p-2">
+                        <label for="validationCustom01" class="form-label">Task Name</label>
+                        <input type="text" class="form-control" id="validationCustom01" name="name" required>
+                    </div>
+                    <div class="col m-2 p-2">
+                        <label for="validationCustom01" class="form-label">Task Description</label>
+                        <input type="text" class="form-control" id="validationCustom01" name="description" required>
+                    </div>
+                    <div class="col m-2 p-2 visually-hidden">
+                        <label for="validationCustom01" class="form-label">Student</label>
+                        <?php echo'<input type="text" class="form-control" id="validationCustom01" name="student" value="'.$studentId.'"required>';?>
+                    </div>
+                    <div class="col m-2 p-2 visually-hidden">
+                        <label for="validationCustom01" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="validationCustom01" name="status"  value="pending" required>
+                    </div>
+                    <div class="col m-2 p-2 visually-hidden">
+                        <label for="validationCustom01" class="form-label">Supervisor</label>
+                        <?php echo'<input type="text" class="form-control" id="validationCustom01" name="supervisor" value="'.$supervisor->getId().'" required>';?>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" name="add">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- Button trigger modal -->
 <!-- ========== footer start =========== -->
 <?php include(ROOT."includes/footer.inc.php");?>
 <!-- ========== footer end =========== -->

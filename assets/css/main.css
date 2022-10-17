@@ -5481,3 +5481,9 @@ only screen and (min-width: 768px) and (max-width: 991px),
     width: 250px;
     height: 80vh;
 }
+
+.chat-scroll {
+    overflow-y: scroll;
+    width: 100%;
+    height: 80vh;
+}

@@ -2,9 +2,12 @@
 require_once("adminController.php");
 include(R."taskServices.php");
 include(R."reportServices.php");
+include(R."chatServices.php");
 // include(R."studentsServices.php");
-// include(R."assessorServices.php");
+require_once(R."assessorServices.php");
 // include(R."supervisorServices.php");
+require_once(R."assessmentFormServices.php");
+
 
 class SupervisorController extends AdminController{
     private $userServices;
@@ -12,6 +15,8 @@ class SupervisorController extends AdminController{
     private $assessorServices;
     private $supervisorServices;
     private $taskServices;
+    private $assessmentFormServices;
+    private $chatServices;
 
     function __construct() {
         $this->userServices = new UserServices();
@@ -20,10 +25,12 @@ class SupervisorController extends AdminController{
         $this->supervisorServices = new supervisorService();
         $this->taskServices = new TaskServices();
         $this->reportServices = new ReportServices();
+        $this->chatServices = new ChatServices();
+        $this->assessmentFormServices = new AssessmentFormService();
     }
 
     function fetchStudents($id){   
-      return $this->studentServices->fetchAllStudentsBySupervisor($id);
+        return $this->studentServices->fetchAllStudentsBySupervisor($id);
     }
 
     function fetchTasksByUserIdAndSupervisorId($studentId,$supervisorId){   
@@ -34,15 +41,98 @@ class SupervisorController extends AdminController{
         return $this->reportServices->fetchReportsByUserIdAndSupervisorId($studentId,$supervisorId);
     }
 
-    function fetchAllStudentsBySupervisorzId($id){
+    function fetchAllStudentsBySupervisorsId($id){
         return $this->studentServices->fetchAllStudentsBySupervisorzId($id);
     }
 
+    function fetchAllMessagesBySupervisorsId($id){
+        return $this->chatServices->fetchAllMessagesBySupervisorsId($id);
+    }
+
+    function fetchChatBySupervisorsId($id){
+        return $this->chatServices->fetchChatBySupervisorsId($id);
+    }
+
+    function fetchChatById($id){
+        return $this->chatServices->fetchChatById($id);
+    }
+
+    function sendMessage($chatId, $message, $user){
+        return $this->chatServices->sendMessage($chatId, $message, $user);
+    }
+
+    function messageSeen($id){
+        return $this->chatServices->seen($id);
+    }
+
+    function fetchAssessorsById($id){
+        return $this->assessorServices->fetchAssessorsById($id);
+    }
+
+    function createChat($supervisorId,$assessorId){
+        return $this->chatServices->createChat($supervisorId,$assessorId);
+    }
+
+    function createTask($name,$description,$studentId,$status,$supervisorId){
+        return $this->taskServices->createTask($name,$description,$studentId,$status,$supervisorId);
+    }
+
+    function rateAndCommentTask($taskId,$comment,$rate){
+        return $this->taskServices->rateAndCommentTask($taskId,$comment,$rate);
+    }
+
+    function getAssessmentFormByStudentId($studentId){
+        return $this->assessmentFormServices->getAssessmentFormByStudentId($studentId);
+    }
 
     function getLoggedInUser($emailAddress)
     {
         $supervisorServices = new supervisorService();
         return $supervisorServices->getLoggedInUser($emailAddress);
+    }
+
+    function getLoggedUser($emailAddress)
+    {
+        $userServices = new UserServices();
+        return $userServices->getLoggedInUser($emailAddress);
+    }
+    
+    function deleteTaskByTaskId($taskId){
+        return $this->taskServices->deleteTaskByTaskId($taskId);
+    }
+
+    function fetchTaskById($taskId){
+        return $this->taskServices->fetchTaskById($taskId);
+    }
+
+    function updateTask($taskId,$taskName,$summary,$comment,$rate){
+        return $this->taskServices->updateTask($taskId,$taskName,$summary,$comment,$rate);
+    }
+
+    function approveReport($reportId){
+        return $this->reportServices->approveReport($reportId);
+    }
+
+    function rejectReport($reportId){
+        return $this->reportServices->rejectReport($reportId);
+    }
+
+    function createAssessmentForm($qn1,$qn2,$qn3,$qn4,$qn5,$qn6,$qn7,$qn8,$qn9,$comment,$studentId){
+        return $this->assessmentFormServices->createAssessmentForm($qn1,$qn2,$qn3,$qn4,$qn5,$qn6,$qn7,$qn8,$qn9,$comment,$studentId);
+    }
+
+    function updateAssessmentForm($id,$qn1,$qn2,$qn3,$qn4,$qn5,$qn6,$qn7,$qn8,$qn9,$comment){
+        return $this->assessmentFormServices->updateAssessmentForm($id,$qn1,$qn2,$qn3,$qn4,$qn5,$qn6,$qn7,$qn8,$qn9,$comment);
+    }
+
+    function updateSupervisorById($supervisorId,$firstName,$lastName,$emailAddress,$companyName,$position,$mobileNumber,$password,$userId,$userEmail){
+        $this->supervisorServices->updateSupervisorById($supervisorId,$firstName,$lastName,$emailAddress,$companyName,$position,$mobileNumber);
+        $this->chatServices->updateUser($emailAddress,$userEmail);
+        $this->userServices->updateUser($userId, $emailAddress,$password);
+    }
+
+    function fetchTasksBySupervisorId($supervisorId){
+        return $this->taskServices->fetchTasksBySupervisorId($supervisorId);
     }
 
 }

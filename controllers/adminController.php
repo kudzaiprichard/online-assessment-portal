@@ -83,6 +83,12 @@ class AdminController{
         return $userServices->getLoggedInUser($emailAddress);
     }
 
+    function getLoggedInUser2($emailAddress)
+    {
+        $userServices = new UserServices();
+        return $userServices->getLoggedInUser($emailAddress);
+    }
+
     function updateUser($id,$emailAddress, $password){
         return $this->userServices->updateUser($id,$emailAddress, $password);
     }

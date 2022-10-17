@@ -22,6 +22,34 @@ class ReportServices{
         return $reports;
     }
 
+    function approveReport($reportId){
+        $approved = false;
+        $con = $this->db->openConnection();
+
+        $query = "UPDATE `report` SET `status`='accepted' WHERE `id`='$reportId'";
+        
+        if(mysqli_query($con, $query) or die(mysqli_error($con))) {
+            $approved = true;
+        }
+
+        $con->close(); 
+        return $approved;
+    }
+    
+    function rejectReport($reportId){
+        $approved = false;
+        $con = $this->db->openConnection();
+
+        $query = "UPDATE `report` SET `status`='rejected' WHERE `id`='$reportId'";
+        
+        if(mysqli_query($con, $query) or die(mysqli_error($con))) {
+            $approved = true;
+        }
+
+        $con->close(); 
+        return $approved;
+    }
+
     function createReport(){}
     function fetchAllReport(){}
     function deleteReportById($id){}
