@@ -1,5 +1,6 @@
 <?php
-require_once(A."Assessor.php");
+define('AA',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/models/");
+require_once(AA."Assessor.php");
 
 class AssessorService{
     private $db;
@@ -36,6 +37,40 @@ class AssessorService{
 
         $con->close(); 
         return $assessors;
+    }
+
+    function getAssessorByStudentId($assessorId){
+        $assessors = array();
+        $con = $this->db->openConnection();
+        
+        $query = "SELECT * FROM `assesor` WHERE `id`='$assessorId'";
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $assessor = new Assessor($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address']);
+            array_push($assessors, $assessor);
+            unset($assessor);
+        }
+
+        $con->close(); 
+        return $assessors[0];
+    }
+
+    function getLoggedInAssessor($emailAddress){
+        $assessors = array();
+        $con = $this->db->openConnection();
+        
+        $query = "SELECT * FROM `assesor` WHERE `email_address` = '$emailAddress'";
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $assessor = new Assessor($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address']);
+            array_push($assessors, $assessor);
+            unset($assessor);
+        }
+
+        $con->close(); 
+        return $assessors[0];
     }
 
     #TODO: 
@@ -81,6 +116,20 @@ class AssessorService{
         $con->close(); 
         return $Assessors[0];
     }
+
+    function updateAssessorById($assessorId,$firstName,$lastName,$emailAddress,$program,$regNumber,$mobileNumber,$physicalAddress) {
+        $isUpdated = false;
+        $query = "UPDATE `assesor` SET `first_name`='$firstName', `last_name`='$lastName', `reg_number`='$regNumber', `program`='$program', `phone_number`='$mobileNumber', `email_address`='$emailAddress', `physical_address`='$physicalAddress' WHERE `id`='$assessorId'";
+        $con = $this->db->openConnection();
+        if (mysqli_query($con, $query)) {
+            $isUpdated = True;
+        }
+        $con->close();
+
+    return $isUpdated;
+    }
+
+
 }
 
 ?>

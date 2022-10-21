@@ -1,10 +1,10 @@
 <?php
 require_once('Connection.php');
-define('R',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/services/");
-include(R."userServices.php");
-include(R."studentsServices.php");
-include(R."assessorServices.php");
-include(R."supervisorServices.php");
+define('RA',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/services/");
+require_once(RA."userServices.php");
+require_once(RA."studentsServices.php");
+require_once(RA."assessorServices.php");
+require_once(RA."supervisorServices.php");
 
 class AdminController{
     private $userServices;

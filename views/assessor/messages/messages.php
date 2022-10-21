@@ -7,16 +7,18 @@
     require_once("../../../controllers/adminController.php");
     require_once("../../../controllers/studentController.php");
     require_once("../../../controllers/supervisorController.php");
+    require_once("../../../controllers/assessorController.php");
 
     define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/views/");
     include(ROOT."includes/header.inc.php");
 
     $supervisorController = new SupervisorController();
     $studentController = new StudentController();
-
-    $supervisor = $supervisorController->getLoggedInUser($_SESSION["email_address"]);
-    $chats = $supervisorController->fetchChatBySupervisorsId($supervisor->getId());
-    $students = $supervisorController->fetchStudents($supervisor->getId());
+    $assessorController = new AssessorController();
+    
+    $assessor = $assessorController->getLoggedInAssessor($_SESSION["email_address"]);
+    $chats = $assessorController->fetchChatByAssessorId($assessor->getId());
+    $students = $assessorController->fetchStudentsByAssessorId($assessor->getId());
 
 ?>
 
@@ -109,7 +111,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="title mb-30">
-                            <h2>Supervisor Messages</h2>
+                            <h2>Assessor Messages</h2>
                         </div>
                     </div>
                     <!-- end col -->
@@ -118,7 +120,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="#0">Supervisor</a>
+                                        <a href="#0">Assessor</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Messages
@@ -143,9 +145,9 @@
                 </div>
                 <?php
                     foreach($chats as $chat){
-                        $messages = $supervisorController->fetchAllMessagesBySupervisorsId($chat->getId());
+                        $messages = $assessorController->fetchAllMessagesByAssessorId($chat->getId());
                         foreach($messages as $message){
-                            if($message->getUser() != $supervisor->getEmailAddress()){
+                            if($message->getUser() != $assessor->getEmailAddress()){
                                 if(strlen($message->getMessage())>120){
                                     $message->setMessage(substr($message->getMessage(),0,125));
                                 }
@@ -217,17 +219,19 @@
             <div class="modal-body list-group" >
                 <?php
                     $email = "";
-                    $assessors = array();
+                    $supervisors = array();
                     foreach($students as $student){
-                        $assessor =  $supervisorController->fetchAssessorsById($student->getAssessor());
-                        if($assessor->getEmailAddress() != $email){array_push($assessors,$assessor);}
-                        $email = $assessor->getEmailAddress();
-                        unset($assessor);
+                        $supervisor =  $assessorController->fetchSupervisorsById($student->getSupervisor());
+                        if($supervisor->getEmailAddress() != $email){
+                            array_push($supervisors,$supervisor);
+                        }
+                        $email = $supervisor->getEmailAddress();
+                        unset($supervisor);
                     }
-                    foreach($assessors as $assessor){
+                    foreach($supervisors as $supervisor){
                         echo '
                         <div class="rounded card m-1 p-3">
-                            <a href="start-chat.php?id='.$assessor->getId().'" class="text-dark">'.$assessor->getEmailAddress().'</a>
+                            <a href="start-chat.php?id='.$supervisor->getId().'" class="text-dark">'.$supervisor->getEmailAddress().'</a>
                         </div>
                         ';
                     }

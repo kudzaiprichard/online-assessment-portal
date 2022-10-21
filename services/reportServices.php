@@ -22,6 +22,23 @@ class ReportServices{
         return $reports;
     }
 
+    function fetchReportsByUserIdAndAssessorId($studentId,$assessorId){
+        $reports = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `report` WHERE `student_id` = '$studentId' AND `assessor_id` = '$assessorId' ";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $report = new Report($row['id'],$row['report'],$row['title'],$row['status'],$row['student_id'],$row['supervisor_id'],$row['assessor_id']);
+            array_push($reports, $report);
+            unset($report);
+        }
+
+        $con->close(); 
+        return $reports;
+    }
+
     function approveReport($reportId){
         $approved = false;
         $con = $this->db->openConnection();

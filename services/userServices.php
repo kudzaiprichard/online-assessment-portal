@@ -134,9 +134,14 @@ class UserServices{
         session_destroy();
         $isUpdated = false;
         $con = $this->db->openConnection();
-        $query = "UPDATE `user` SET `email_address`='$emailAddress',
+        
+        if($password = " " || $password == null){
+            $query = "UPDATE `user` SET `email_address`='$emailAddress' WHERE `id`='$id'";
+        }else{
+            $query = "UPDATE `user` SET `email_address`='$emailAddress',
                                     `password`='" . md5($password) . "'
                                     WHERE `id`='$id'";
+        }
 
         if (mysqli_query($con, $query) or die(mysqli_error($con))) {
             $isUpdated = true;

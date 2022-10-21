@@ -1,12 +1,11 @@
 <?php
+define('RSS',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/services/");
 require_once("adminController.php");
-include(R."taskServices.php");
-include(R."reportServices.php");
-include(R."chatServices.php");
-// include(R."studentsServices.php");
-require_once(R."assessorServices.php");
-// include(R."supervisorServices.php");
-require_once(R."assessmentFormServices.php");
+require_once(RSS."taskServices.php");
+require_once(RSS."reportServices.php");
+require_once(RSS."chatServices.php");
+require_once(RSS."assessorServices.php");
+require_once(RSS."assessmentFormServices.php");
 
 
 class SupervisorController extends AdminController{

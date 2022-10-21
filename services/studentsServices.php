@@ -1,7 +1,7 @@
 <?php
 define('C',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/models/");
 include(C."student.php");
-// require("userServices.php");
+require_once("userServices.php");
 class StudentsServices extends UserServices{
     private $db;
     function __construct() {$this->db = new Connection("localhost", "root", "", "portal");}
@@ -27,6 +27,23 @@ class StudentsServices extends UserServices{
         $students = array();
         $con = $this->db->openConnection();
         $query = "SELECT * FROM `student` WHERE supervisor_id = '$id'";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $student = new Student($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address'],$row['assesor_id'],$row['supervisor_id']);
+            array_push($students, $student);
+            unset($student);
+        }
+
+        $con->close(); 
+        return $students;
+    }
+
+    function fetchStudentsByAssessorId($assessorId){
+        $students = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `student` WHERE assesor_id = '$assessorId'";
 
         $result = mysqli_query($con, $query);
 
@@ -107,6 +124,27 @@ class StudentsServices extends UserServices{
         $users = array();
         $con = $this->db->openConnection();
         $query = "SELECT * FROM `student` WHERE `id` = '$id'";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $user = new Student($row['id'],$row['first_name'],$row['last_name'],$row['reg_number'],$row['program'],$row['phone_number'],$row['email_address'],$row['physical_address'],$row['assesor_id'],$row['supervisor_id']);
+            array_push($users, $user);
+            unset($user);
+        }
+        if(empty($users)){
+            $user = new Student(0,"No user selected"," "," "," "," "," "," "," "," ");
+            array_push($users, $user);
+            unset($user);
+        }
+        $con->close(); 
+        return $users[0];
+    }
+
+    function getLoggedInStudentByEmail($emailAddress){
+        $users = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `student` WHERE `email_address` = '$emailAddress'";
 
         $result = mysqli_query($con, $query);
 

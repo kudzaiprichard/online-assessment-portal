@@ -8,8 +8,7 @@
 
     define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/views/");
     include(ROOT."includes/header.inc.php");
-    // include(ROOT."includes/side-bar.inc.php");
-
+    
     $assessorController = new AssessorController();
     $assessor = $assessorController->getLoggedInAssessor($_SESSION["email_address"]);
     $students = $assessorController->fetchStudentsByAssessorId($assessor->getId());
@@ -44,7 +43,7 @@
               </a>
               <ul id="ddmenu_1" class="collapse show dropdown-nav">
                   <li>
-                      <a href="#" class="active">Dashboard </a>
+                      <a href="../dashboard/dashboard.php">Dashboard </a>
                   </li>
                   <li>
                       <a href="../profile/profile.php">Profile</a>
@@ -70,11 +69,14 @@
                   <span class="text">Students</span>
               </a>
               <ul id="ddmenu" class="collapse show dropdown-nav">
-                  <li>
-                      <a href="../assessments/assessment-form.php">Assessment Forms</a>
+                  <li> 
+                      <a href="assessment-form.php" class="active">Assessment Forms</a>
                   </li>
                   <li>
                       <a href="../reports/reports.php">Reports </a>
+                  </li>
+                  <li>
+                      <a href="../tasks/tasks.php">Tasks </a>
                   </li>
               </ul>
           </li> 
@@ -124,10 +126,10 @@
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                       <li class="breadcrumb-item">
-                        <a href="#0">Dashboard</a>
+                        <a href="#0">Assessment Forms</a>
                       </li>
                       <li class="breadcrumb-item active" aria-current="page">
-                        assessor
+                        Assessor
                       </li>
                     </ol>
                   </nav>
@@ -151,9 +153,6 @@
                     align-items-center
                   "
                 >
-                  <div class="left">
-                    <h6 class="text-medium mb-30">Students</h6>
-                  </div>
                 </div>
                 <!-- End Title -->
                 <div class="table-wrapper table-responsive">
@@ -192,55 +191,53 @@
                         </thead>
                         <tbody>
                             <?php
-                            foreach($students as $student){
-                              echo '
-                              <tr>
-                                <td>
-                                    <a href=""><p>'.$student->getFirstName().'</p></a>
-                                </td>
-                                <td class="min-width">
-                                    <a href=""><p>'.$student->getLastName().'</p></a>
-                                </td>
-                                <td class="min-width">
-                                    <a href=""><p>'.$student->getRegNumber().'</p></a>
-                                </td>
-                                <td class="min-width">
-                                    <a href="">
-                                    <p>'.$student->getProgram().'</p>
-                                    </a>
-                                </td>
-                                <td class="min-width">
-                                    <a href=""><p>'.$student->getPhoneNumber().'</p></a>
-                                </td>
-                                <td class="min-width">
-                                    <a href=""><p>'.$student->getEmailAddress().'</p></a>
-                                </td>
-                                <td class="max-width">
-                                    <a href=""><p>'.$student->getPhysicalAddress().'</p></a>
-                                </td>
-                                <td>
-                                    <div class="action justify-content-end">
-                                        <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown" aria-expanded="false">
-                                      <i class="lni lni-more-alt"></i>
-                                    </button>
-                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
-                                            <li class="dropdown-item">
-                                                <a href="../assessments/assessment-form-details.php?id='.$student->getId().'" class="text-gray">view assessment form</a>
-                                            </li>
-                                            <li class="dropdown-item">
-                                                <a href="../reports/reports.php?id='.$student->getId().'" class="text-gray">view reports</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                              ';
-                            }
+                              foreach($students as $student){
+                                echo '
+                                  <tr>
+                                    <td>
+                                        <a href=""><p>'.$student->getFirstName().'</p></a>
+                                    </td>
+                                    <td class="min-width">
+                                        <a href=""><p>'.$student->getLastName().'</p></a>
+                                    </td>
+                                    <td class="min-width">
+                                        <a href=""><p>'.$student->getRegNumber().'</p></a>
+                                    </td>
+                                    <td class="min-width">
+                                        <a href="">
+                                        <p>HAI</p>
+                                        </a>
+                                    </td>
+                                    <td class="min-width">
+                                        <a href=""><p>'.$student->getPhoneNumber().'</p></a>
+                                    </td>
+                                    <td class="min-width">
+                                        <a href=""><p>'.$student->getEmailAddress().'</p></a>
+                                    </td>
+                                    <td class="max-width">
+                                        <a href=""><p>'.$student->getPhysicalAddress().'</p></a>
+                                    </td>
+                                    <td>
+                                        <div class="action justify-content-end">
+                                            <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown" aria-expanded="false">
+                                          <i class="lni lni-more-alt"></i>
+                                        </button>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
+                                                <li class="dropdown-item">
+                                                    <a href="assessment-form-details.php?id='.$student->getId().'" class="text-gray">view assessment form</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                ';
+                              }
                             ?>
                         </tbody>
                     </table>
                     <!-- end table -->
                 </div>
+
               </div>
             </div>
             <!-- End Col -->

@@ -23,6 +23,40 @@ class ChatServices{
         return $messages;
     }
 
+    function fetchAllMessagesByAssessorId($id){
+        $messages = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `message` WHERE `chat_id` ='$id'";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $message = new Message($row['id'],$row['user'],$row['message'],$row['status'],$row['chat_id'],$row['timestamp']);
+            array_push($messages, $message);
+            unset($message);
+        }
+
+        $con->close(); 
+        return $messages;
+    }
+
+    function fetchChatByAssessorId($assessorId){
+        $chats = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `chat` WHERE `assessor_id` ='$assessorId'";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $chat = new Chat($row['id'],$row['assessor_id'],$row['supervisor_id']);
+            array_push($chats, $chat);
+            unset($chat);
+        }
+
+        $con->close(); 
+        return $chats;
+    }
+
     function fetchChatBySupervisorsId($id){
         $chats = array();
         $con = $this->db->openConnection();

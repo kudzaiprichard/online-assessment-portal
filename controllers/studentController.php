@@ -29,5 +29,9 @@ class StudentController{
         return $this->studentServices->getLoggedInUserById($id);
     }
 
+    function getLoggedInStudentByEmail($emailAddress){
+        return $this->studentServices->getLoggedInStudentByEmail($emailAddress);
+    }
+
 }
 ?>

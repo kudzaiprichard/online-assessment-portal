@@ -38,6 +38,24 @@ class SupervisorService{
         return $supervisors;
     }
 
+    function getSupervisorByStudentId($assessorId){
+        $supervisors = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `supervisor` WHERE `id`='$assessorId'";
+
+        $result = mysqli_query($con, $query)or die(mysqli_error($con));
+
+        while($row = $result->fetch_assoc()) {
+            $supervisor = new Supervisor($row['id'],$row['first_name'],$row['last_name'],$row['position'],$row['company_name'],$row['email_address'],$row['phone_number']);
+            array_push($supervisors, $supervisor);
+            unset($supervisor);
+        }
+
+        $con->close(); 
+        return $supervisors[0];
+    }
+
+
     function getLoggedInUser($emailAddress) {
         $users = array();
         $con = $this->db->openConnection();

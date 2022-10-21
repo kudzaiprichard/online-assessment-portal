@@ -1,11 +1,14 @@
 <?php 
     require_once("../../../controllers/adminController.php");
     require_once("../../../controllers/studentController.php");
+    require_once("../../../controllers/assessorController.php");
     require_once("../../../controllers/supervisorController.php");
 
     $supervisorController = new SupervisorController();
     $studentController = new StudentController();
     $adminController = new AdminController();
+    $assessorController = new AssessorController();
+
     $count = 0;
     $count2 = 0;
     $emailAddress = $_SESSION['email_address'];
@@ -30,6 +33,21 @@
                 $count2++;
             }
         }
+    }elseif($user->getAccountType() == "assessor"){
+        $assessor = $assessorController->getLoggedInAssessor($_SESSION["email_address"]);
+        $chats = $assessorController->fetchChatByAssessorId($assessor->getId());
+
+        foreach($chats as $chat){
+            $messages = $assessorController->fetchAllMessagesByAssessorId($chat->getId());
+            foreach($messages as $message){
+                if($message->getUser() != $assessor->getEmailAddress()){
+                    if($message->getStatus() != "seen"){$count = +1;}}
+            }
+        }
+
+
+    }elseif($user->getAccountType() == "student"){
+
     }
 
 ?>
@@ -56,115 +74,194 @@
         </div>
         <div class="col-lg-7 col-md-7 col-6">
             <div class="header-right">
+
             <!-- notification start -->
-            <div class="notification-box ml-15 d-none d-md-flex">
-                <button class="dropdown-toggle" type="button" id="notification" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="lni lni-alarm"></i>
-                    <?php if($user->getAccountType() == "supervisor"){if($count2 > 0){echo '<span>'.$count2.'</span>';}}?>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="notification">
-                    <?php 
-                    $isEmpty = false;
-                        foreach($tasks as $task){
-                            if($task->getRating() == "" && $task->getSupervisorComment() == "" && $task->getStatus() == "completed"){
-                                echo '
-                                <li>
-                                    <a href="../../supervisor/tasks/comment-rate-form.php?id='.$task->getId().'">
-                                    <div class="content">
-                                        <h6>
-                                        '.$task->getName().'
-                                        <span class="text-regular">
-                                            task done click to comment and rate
-                                        </span>
-                                        </h6>
-                                        <p>
-                                        '.$task->getStatus().'
-                                        </p>
-                                        <span>'.$task->getTimestamp().'</span>
-                                    </div>
-                                    </a>
-                                </li>
-                                ';
-                                $isEmpty = false;
-                            }
-                        }
-                        if($isEmpty){
-                                echo '
-                                <li>
-                                    <a href="#0">
-                                    <div class="content">
-                                        <h6>
-                                            No Notifications
-                                        </h6>
-                                    </div>
-                                    </a>
-                                </li>
-                            ';              
-                        }
-                    ?>
-                </ul>
-            </div>
-            <!-- notification end -->
-            <!-- message start -->
-            <div class="header-message-box ml-15 d-none d-md-flex">
-                <button
-                class="dropdown-toggle"
-                type="button"
-                id="message"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                >
-                <i class="lni lni-envelope"></i>
-                <?php 
-                    if($user->getAccountType() == "supervisor"){if($count>0){echo'<span>'.$count.'</span>';}}
-                ?>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="message">
-                    <?php 
-                    if($user->getAccountType() == "supervisor"){
-                        foreach($chats as $chat){
-                            $messages = $supervisorController->fetchAllMessagesBySupervisorsId($chat->getId());
-                            foreach($messages as $message){
-                                if($message->getUser() != $supervisor->getEmailAddress()){
-                                    if(strlen($message->getMessage())>120){
-                                        $message->setMessage(substr($message->getMessage(),0,75));
-                                    }
-                                    if($message->getStatus() != "seen"){
-                                        echo '
-                                        <li>
-                                            <a href="../../supervisor/messages/mark-as-read.php?id='.$message->getId().'">
-                                            <div class="image">
-                                                <img src="../../../assets/images/lead/lead-5.png" alt="" />
-                                            </div>
-                                            <div class="content">
-                                                <h6>'.$message->getUser().'</h6>
-                                                <p>'.$message->getMessage().'<b>....</b></p>
-                                                <span>'.$message->getTimestamp().'</span>
-                                            </div>
-                                            </a>
-                                        </li>
-                                        ';
-                                    }else{
-                                        echo '
-                                        <li>
-                                            <a href="#">
-                                            <div class="content">
-                                                <h6>No latest Messages</h6>
-                                            </div>
-                                            </a>
-                                        </li>
-                                        ';
-                                        break;
-                                    }
+            <?php
+            if($user->getAccountType() == "supervisor"){
+                echo '
+                <div class="notification-box ml-15 d-none d-md-flex">
+                    <button class="dropdown-toggle" type="button" id="notification" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="lni lni-alarm"></i>
+                    ';
+                    if($count2 > 0){echo '<span>'.$count2.'</span>';}
+                    echo '
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="notification">
+                    ';     
+                        $isEmpty = true;
+                            foreach($tasks as $task){
+                                if($task->getRating() == "" && $task->getSupervisorComment() == "" && $task->getStatus() == "completed"){
+                                    echo '
+                                    <li>
+                                        <a href="../../supervisor/tasks/comment-rate-form.php?id='.$task->getId().'">
+                                        <div class="content">
+                                            <h6>
+                                            '.$task->getName().'
+                                            <span class="text-regular">
+                                                task done click to comment and rate
+                                            </span>
+                                            </h6>
+                                            <p>
+                                            '.$task->getStatus().'
+                                            </p>
+                                            <span>'.$task->getTimestamp().'</span>
+                                        </div>
+                                        </a>
+                                    </li>
+                                    ';
+                                    $isEmpty = false;
                                 }
-                            
                             }
+                            if($isEmpty){
+                                    echo '
+                                    <li>
+                                        <a href="#0">
+                                        <div class="content">
+                                            <h6>
+                                                No Notifications
+                                            </h6>
+                                        </div>
+                                        </a>
+                                    </li>
+                                ';              
+                            }
+                    echo'
+                        </ul>
+                    </div>
+                ';
+            }
+                
+            ?>
+            <!-- notification end -->
+
+            <!-- message start -->
+            <?php 
+            if($user->getAccountType() == "supervisor"){
+                echo '
+                    <div class="header-message-box ml-15 d-none d-md-flex">
+                        <button
+                        class="dropdown-toggle"
+                        type="button"
+                        id="message"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        >
+                        <i class="lni lni-envelope"></i>
+                    ';
+                    if($count>0){echo'<span>'.$count.'</span>';}
+                    echo'
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="message">
+                    ';
+                    
+                    foreach($chats as $chat){
+                        $messages = $supervisorController->fetchAllMessagesBySupervisorsId($chat->getId());
+                        foreach($messages as $message){
+                            if($message->getUser() != $supervisor->getEmailAddress()){
+                                if(strlen($message->getMessage())>120){
+                                    $message->setMessage(substr($message->getMessage(),0,75));
+                                }
+                                if($message->getStatus() != "seen"){
+                                    echo '
+                                    <li>
+                                        <a href="../../supervisor/messages/mark-as-read.php?id='.$message->getId().'">
+                                        <div class="image">
+                                            <img src="../../../assets/images/lead/lead-5.png" alt="" />
+                                        </div>
+                                        <div class="content">
+                                            <h6>'.$message->getUser().'</h6>
+                                            <p>'.$message->getMessage().'<b>....</b></p>
+                                            <span>'.$message->getTimestamp().'</span>
+                                        </div>
+                                        </a>
+                                    </li>
+                                    ';
+                                }else{
+                                    echo '
+                                    <li>
+                                        <a href="#">
+                                        <div class="content">
+                                            <h6>No latest Messages</h6>
+                                        </div>
+                                        </a>
+                                    </li>
+                                    ';
+                                    break;
+                                }
+                            }
+                        
                         }
                     }
-                    ?>
-                </ul>
-            </div>
+                echo'      
+                        </ul>
+                    </div>
+                ';
+            }elseif($user->getAccountType() == "assessor"){
+                echo '
+                    <div class="header-message-box ml-15 d-none d-md-flex">
+                        <button
+                        class="dropdown-toggle"
+                        type="button"
+                        id="message"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        >
+                        <i class="lni lni-envelope"></i>
+                    ';
+                    if($count>0){echo'<span>'.$count.'</span>';}
+                    echo'
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="message">
+                    ';
+                    
+                    foreach($chats as $chat){
+                        $messages = $assessorController->fetchAllMessagesByAssessorId($chat->getId());
+                        foreach($messages as $message){
+                            if($message->getUser() != $assessor->getEmailAddress()){
+                                if(strlen($message->getMessage())>120){
+                                    $message->setMessage(substr($message->getMessage(),0,75));
+                                }
+                                if($message->getStatus() != "seen"){
+                                    echo '
+                                    <li>
+                                        <a href="../../supervisor/messages/mark-as-read.php?id='.$message->getId().'">
+                                        <div class="image">
+                                            <img src="../../../assets/images/lead/lead-5.png" alt="" />
+                                        </div>
+                                        <div class="content">
+                                            <h6>'.$message->getUser().'</h6>
+                                            <p>'.$message->getMessage().'<b>....</b></p>
+                                            <span>'.$message->getTimestamp().'</span>
+                                        </div>
+                                        </a>
+                                    </li>
+                                    ';
+                                }else{
+                                    echo '
+                                    <li>
+                                        <a href="#">
+                                        <div class="content">
+                                            <h6>No latest Messages</h6>
+                                        </div>
+                                        </a>
+                                    </li>
+                                    ';
+                                    break;
+                                }
+                            }
+                        
+                        }
+                    }
+                echo'      
+                        </ul>
+                    </div>
+                ';
+            }
+            ?>
             <!-- message end -->
+
+
+
 
             <?php 
                 if($user->getAccountType() == "supervisor"){
