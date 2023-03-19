@@ -18,26 +18,26 @@
         if($adminController->login($emailAddress, $password)=="admin"){
             $_SESSION['email_address'] = $emailAddress;
             $msg = "You have been logged in successfully";
-            header("Location: ../../admin/dashboard/dashboard.php?$msg");
+            header("Location: ../../admin/dashboard/dashboard.php?msg=$msg");
             die();
         }elseif($adminController->login($emailAddress, $password)=="student"){
             $_SESSION['email_address'] = $emailAddress;
             $msg = "You have been logged in successfully";
-            header("Location: ../../students/dashboard/dashboard.php?$msg");
+            header("Location: ../../students/dashboard/dashboard.php?msg=$msg");
             die();
         }elseif($adminController->login($emailAddress, $password)=="assessor"){
             $_SESSION['email_address'] = $emailAddress;
             $msg = "You have been logged in successfully";
-            header("Location: ../../assessor/dashboard/dashboard.php?$msg");
+            header("Location: ../../assessor/dashboard/dashboard.php?msg=$msg");
             die();
         }elseif($adminController->login($emailAddress, $password)=="supervisor"){
             $_SESSION['email_address'] = $emailAddress;
             $msg = "You have been logged in successfully";
-            header("Location: ../../supervisor/dashboard/dashboard.php?$msg");
+            header("Location: ../../supervisor/dashboard/dashboard.php?msg=$msg");
             die();
         }else{
             $msg = "Password or Email is wrong please try again";
-            header("Location: signin.php?$msg");
+            header("Location: signin.php?msg=$msg");
             die();
         }
 

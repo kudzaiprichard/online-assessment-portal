@@ -162,5 +162,17 @@ class StudentsServices extends UserServices{
         return $users[0];
     }
 
+    function updateStudentById($studentId,$firstName,$lastName,$emailAddress,$program,$regNumber,$mobileNumber,$physicalAddress) {
+        $isUpdated = false;
+        $query = "UPDATE `student` SET `first_name`='$firstName', `last_name`='$lastName', `reg_number`='$regNumber', `program`='$program', `phone_number`='$mobileNumber', `email_address`='$emailAddress', `physical_address`='$physicalAddress' WHERE `id`='$studentId'";
+        $con = $this->db->openConnection();
+        if (mysqli_query($con, $query)) {
+            $isUpdated = True;
+        }
+        $con->close();
+
+    return $isUpdated;
+    }
+
 }
 ?>

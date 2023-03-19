@@ -17,11 +17,12 @@
 
 <!-- ======== sidebar-nav start =========== -->
 <aside class="sidebar-nav-wrapper">
-    <div class="navbar-logo mb-5 mt-3">
-    <a href="index.html">
-        <h2><small>AA PORTAL</small></h2>
+<div class="navbar-logo " >
+    <a href="#">
+        <img src="../../../assets/images/logo.jpg" alt="" class="img-fluid " width="120px;">
+        <h4><small>ASSESSMENT PORTAL</small></h4>
     </a>
-    </div>
+</div>
     <nav class="sidebar-nav">
       <ul>
           <li class="nav-item nav-item-has-children">

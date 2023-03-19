@@ -23,10 +23,11 @@ if(isset($_GET['id'])){
 
 <!-- ======== sidebar-nav start =========== -->
 <aside class="sidebar-nav-wrapper">
-<div class="navbar-logo mb-5 mt-3">
-<a href="index.html">
-    <h2><small>AA PORTAL</small></h2>
-</a>
+<div class="navbar-logo " >
+    <a href="#">
+        <img src="../../../assets/images/logo.jpg" alt="" class="img-fluid " width="120px;">
+        <h4><small>ASSESSMENT PORTAL</small></h4>
+    </a>
 </div>
 <nav class="sidebar-nav">
     <ul>
@@ -194,78 +195,80 @@ if(isset($_GET['id'])){
                                     <tbody>
                                     <?php
                                         foreach($tasks as $task){
-                                            if($task->getStudentComment() == ''){
-                                                $task->setStudentComment('No Comment');
-                                            }
-                                            if($task->getSupervisorComment() == ''){
-                                                $task->setSupervisorComment('No Comment');
-                                            }
-                                            echo '
-                                            <tr>
-                                            <td>
-                                                <p>'.date('dS F Y', strtotime($task->getTimestamp())).'</p>
-                                            </td>
-                                            <td class="min-width">
-                                                <p>'.$task->getName().'</p>
-                                            </td>
-                                            <td class="min-width">
-                                                <p>'.$task->getDescription().'</p>
-                                            </td>
-                                            ';
-                                            if($task->getStatus() == 'completed'){
+                                            if($task->getStudent() == $studentId && $task->getSupervisor() == $supervisor->getId()){
+                                                if($task->getStudentComment() == ''){
+                                                    $task->setStudentComment('No Comment');
+                                                }
+                                                if($task->getSupervisorComment() == ''){
+                                                    $task->setSupervisorComment('No Comment');
+                                                }
                                                 echo '
+                                                <tr>
+                                                <td>
+                                                    <p>'.date('dS F Y', strtotime($task->getTimestamp())).'</p>
+                                                </td>
                                                 <td class="min-width">
-                                                <span class="status-btn active-btn">'.$task->getStatus().'</span>
+                                                    <p>'.$task->getName().'</p>
+                                                </td>
+                                                <td class="min-width">
+                                                    <p>'.$task->getDescription().'</p>
                                                 </td>
                                                 ';
-                                            }
-                                            if($task->getStatus() == 'pending'){
+                                                if($task->getStatus() == 'completed'){
+                                                    echo '
+                                                    <td class="min-width">
+                                                    <span class="status-btn active-btn">'.$task->getStatus().'</span>
+                                                    </td>
+                                                    ';
+                                                }
+                                                if($task->getStatus() == 'pending'){
+                                                    echo '
+                                                    <td class="min-width">
+                                                    <span class="status-btn info-btn">'.$task->getStatus().'</span>
+                                                    </td>
+                                                    ';
+                                                }
                                                 echo '
                                                 <td class="min-width">
-                                                <span class="status-btn info-btn">'.$task->getStatus().'</span>
+                                                    <p>'.$task->getStudentComment().'</p>
                                                 </td>
+                                                <td class="min-width">
+                                                    <p>'.$task->getSupervisorComment().'</p>
+                                                </td>
+                                                <td class="max-width">
+                                                    <p>
+                                                ';
+                                                if($task->getRating() == 1){echo '<i class="lni lni-star-filled"></i>';}
+                                                if($task->getRating() == 2){for($i = 0; $i<2; $i++){echo '<i class="lni lni-star-filled"></i>';}}
+                                                if($task->getRating() == 3){for($i = 0; $i<3; $i++){echo '<i class="lni lni-star-filled"></i>';}}
+                                                if($task->getRating() == 4){for($i = 0; $i<4; $i++){echo '<i class="lni lni-star-filled"></i>';}}
+                                                if($task->getRating() == 5){for($i = 0; $i<5; $i++){echo '<i class="lni lni-star-filled"></i>';}}
+                                                if($task->getRating() == 0.5){echo '<i class="lni lni-star-filled"></i>';}
+                                                echo '
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <div class="action justify-content-end">
+                                                        <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="lni lni-more-alt"></i>
+                                                    </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
+                                                            <li class="dropdown-item">
+                                                                <a href="comment-rate-form.php?id='.$task->getId().'" class="text-gray" >Comment & Rate</a>
+                                                            </li>
+                                                            <li class="dropdown-item">
+                                                                <a href="delete-task.php?id='.$task->getId().'" class="text-gray">Remove</a>
+                                                            </li>
+                                                            <li class="dropdown-item">
+                                                                <a href="edit-task-form.php?id='.$task->getId().'" class="text-gray">Edit</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                                
                                                 ';
                                             }
-                                            echo '
-                                            <td class="min-width">
-                                                <p>'.$task->getStudentComment().'</p>
-                                            </td>
-                                            <td class="min-width">
-                                                <p>'.$task->getSupervisorComment().'</p>
-                                            </td>
-                                            <td class="max-width">
-                                                <p>
-                                            ';
-                                            if($task->getRating() == 1){echo '<i class="lni lni-star-filled"></i>';}
-                                            if($task->getRating() == 2){for($i = 0; $i<2; $i++){echo '<i class="lni lni-star-filled"></i>';}}
-                                            if($task->getRating() == 3){for($i = 0; $i<3; $i++){echo '<i class="lni lni-star-filled"></i>';}}
-                                            if($task->getRating() == 4){for($i = 0; $i<4; $i++){echo '<i class="lni lni-star-filled"></i>';}}
-                                            if($task->getRating() == 5){for($i = 0; $i<5; $i++){echo '<i class="lni lni-star-filled"></i>';}}
-                                            if($task->getRating() == 0.5){echo '<i class="lni lni-star-filled"></i>';}
-                                            echo '
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <div class="action justify-content-end">
-                                                    <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="lni lni-more-alt"></i>
-                                                </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
-                                                        <li class="dropdown-item">
-                                                            <a href="comment-rate-form.php?id='.$task->getId().'" class="text-gray" >Comment & Rate</a>
-                                                        </li>
-                                                        <li class="dropdown-item">
-                                                            <a href="delete-task.php?id='.$task->getId().'" class="text-gray">Remove</a>
-                                                        </li>
-                                                        <li class="dropdown-item">
-                                                            <a href="edit-task-form.php?id='.$task->getId().'" class="text-gray">Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                            
-                                            ';
                                         }
                                     ?>
                                     </tbody>

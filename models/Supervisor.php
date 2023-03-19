@@ -7,9 +7,10 @@ class Supervisor extends UserBaseClass{
     private $position;
     private $companyName;
     private $emailAddress;
+    private $ecNumber;
     private $phoneNumber;
 
-    function __construct($id, $firstName, $lastName, $position, $companyName, $emailAddress, $phoneNumber) {
+    function __construct($id, $firstName, $lastName, $position, $companyName, $emailAddress, $ecNumber, $phoneNumber) {
         $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
@@ -17,6 +18,7 @@ class Supervisor extends UserBaseClass{
         $this->companyName = $companyName;
         $this->phoneNumber = $phoneNumber;
         $this->emailAddress = $emailAddress;
+        $this->ecNumber = $ecNumber;
     }
 
     function __toString() {
@@ -37,6 +39,7 @@ class Supervisor extends UserBaseClass{
     function getCompanyName(){return $this->companyName;}
     function getEmailAddress(){return $this->emailAddress;}
     function getPhoneNumber(){return $this->phoneNumber;}
+    function getEcNumber(){return $this->ecNumber;}
 
     function setId($id){$this->id = $id;}
     function setFirstName($firstName){$this->firstName = $firstName;}
@@ -45,5 +48,6 @@ class Supervisor extends UserBaseClass{
     function setCompanyName($companyName){$this->companyName = $companyName;}
     function setEmailAddress($emailAddress){$this->emailAddress = $emailAddress;}
     function setPhoneNumber($phoneNumber){$this->phoneNumber = $phoneNumber;}
+    function setEcNumber($ecNumber){$this->ecNumber = $ecNumber;}
 }
 ?>

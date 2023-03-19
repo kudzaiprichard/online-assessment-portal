@@ -4,13 +4,13 @@
         <div class="col-md-6 order-last order-md-first">
             <div class="copyright text-center text-md-start">
             <p class="text-sm">
-                Designed and Developed by
+                    Assessment Portal by
                 <a
                 href="https://plainadmin.com"
                 rel="nofollow"
                 target="_blank"
                 >
-                PlainAdmin
+                Namatai
                 </a>
             </p>
             </div>
@@ -24,8 +24,8 @@
                 justify-content-center justify-content-md-end
             "
             >
-            <a href="#0" class="text-sm">Term & Conditions</a>
-            <a href="#0" class="text-sm ml-15">Privacy & Policy</a>
+            <a href="#0" class="text-sm">Assessment Portal</a>
+            <a href="#0" class="text-sm ml-15">v2022</a>
             </div>
         </div>
         </div>
@@ -47,7 +47,6 @@
     <script src="../../../assets/js/world-merc.js"></script>
     <script src="../../../assets/js/polyfill.js"></script>
     <script src="../../../assets/js/main.js"></script>
-
-    
+    <script src="../../../assets/js/jquery/dist/jquery.js"></script>
   </body>
 </html>

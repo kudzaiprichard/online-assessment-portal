@@ -52,9 +52,9 @@ class AdminController{
         return $this->studentServices->createStudent($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress, $assessor_id, $supervisor_id );
     }
     
-    function addSupervisor($firstName, $lastName, $position, $companyName, $phoneNumber, $emailAddress)
+    function addSupervisor($firstName, $lastName, $position, $companyName, $phoneNumber, $ecNumber, $emailAddress)
     {
-        return $this->supervisorServices->saveSupervisor($firstName, $lastName, $position, $companyName, $phoneNumber, $emailAddress);
+        return $this->supervisorServices->saveSupervisor($firstName, $lastName, $position, $companyName, $phoneNumber, $ecNumber, $emailAddress);
     }
 
     function addAssessor($firstName, $lastName, $regNumber, $program, $phoneNumber, $emailAddress, $physicalAddress)

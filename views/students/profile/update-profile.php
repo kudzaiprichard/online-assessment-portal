@@ -1,14 +1,14 @@
 <?php
 session_start();
-    require_once("../../../controllers/assessorController.php");
+    require_once("../../../controllers/studentController.php");
     define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/controllers/");
     require_once(ROOT."Connection.php");
 
-    $assessorController = new AssessorController();
+    $studentController = new StudentController();
     $db = new Connection("localhost", "root", "", "portal");
     $con = $db->openConnection();
 
-    $assessorId = $_SESSION["assessor_id"];
+    $studentId = $_SESSION["student_id"];
     $userId = $_SESSION["user_id"];
     $userEmail = $_SESSION["email_address"];
 
@@ -41,19 +41,19 @@ session_start();
         $physicalAddress = mysqli_real_escape_string($con, $physicalAddress);
 
         if($newPassword == $confirmPassword){
-            $assessorController->updateAssessorById($assessorId,$firstName,$lastName,$emailAddress,$physicalAddress,$newPassword,$program,$regNumber,$mobileNumber,$userId,$userEmail);
-            header("Location: profile.php?id=$assessorId");
+            $studentController->updateStudentById($studentId,$firstName,$lastName,$emailAddress,$physicalAddress,$newPassword,$program,$regNumber,$mobileNumber,$userId);
+            header("Location: profile.php?id=$studentId");
             die();
         }else{
             $_SESSION["message"] = "Passwords do not match";
-            header("Location: profile.php?id=$assessorId");
+            header("Location: profile.php?id=$studentId");
             die();
         }
 
     }
     else{
         $_SESSION["message"] = "Failed to update account";
-        header("Location: profile.php?id=$assessorId");
+        header("Location: profile.php?id=$studentId");
         die();
     }
 ?>

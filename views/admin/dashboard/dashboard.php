@@ -16,10 +16,11 @@
 
 <!-- ======== sidebar-nav start =========== -->
 <aside class="sidebar-nav-wrapper">
-    <div class="navbar-logo mb-5 mt-3">
-    <a href="index.html">
-        <h2><small>AA PORTAL</small></h2>
-    </a>
+    <div class="navbar-logo " >
+      <a href="#">
+          <img src="../../../assets/images/logo.jpg" alt="" class="img-fluid " width="120px;">
+          <h4><small>ASSESSMENT PORTAL</small></h4>
+      </a>
     </div>
     <nav class="sidebar-nav">
       <ul>
@@ -146,76 +147,57 @@
                     <tbody>
                       <?php
                         foreach ($users as $user){
-                          if($user->getPassword() == ""){$isRegistered = "Pending";}else{$isRegistered = "Completed";}
-                          echo '
-                                <tr>
-                                <td>
-                                  <div class="check-input-primary">
-                                    <input
-                                      class="form-check-input"
-                                      type="checkbox"
-                                      id="checkbox-1"
-                                    />
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="product">
-                                    <div class="image">
-                                      <img
-                                        src="assets/images/products/product-mini-1.jpg"
-                                        alt=""
-                                      />
-                                    </div>
-                                    <p class="text-sm">'.$user->getEmailAddress().'</p>
-                                  </div>
-                                </td>
-                                <td>
-                                  <p class="text-sm">'.$user->getAccountType().'</p>
-                                </td>
-                                ';
+                          if($user->getAccountType() != "admin"){
+                            if($user->getPassword() == ""){$isRegistered = "Pending";}else{$isRegistered = "Completed";}
+                              echo '
+                                    <tr>
+                                    <td>
+                                      <div class="check-input-primary">
+                                        <input
+                                          class="form-check-input"
+                                          type="checkbox"
+                                          id="checkbox-1"
+                                        />
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div class="product">
+                                        <div class="image">
+                                          <img
+                                            src="assets/images/products/product-mini-1.jpg"
+                                            alt=""
+                                          />
+                                        </div>
+                                        <p class="text-sm">'.$user->getEmailAddress().'</p>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <p class="text-sm">'.$user->getAccountType().'</p>
+                                    </td>
+                                    ';
 
-                                if($isRegistered == "Pending"){
-                                  echo '
-                                  <td>
-                                    <span class="status-btn info-btn">'.$isRegistered.'</span>
-                                  </td>';
-                                }
+                                    if($isRegistered == "Pending"){
+                                      echo '
+                                      <td>
+                                        <span class="status-btn info-btn">'.$isRegistered.'</span>
+                                      </td>';
+                                    }
 
-                                if($isRegistered == "Completed"){
-                                  echo '
-                                  <td>
-                                    <span class="status-btn success-btn">'.$isRegistered.'</span>
-                                  </td>';
-                                }
+                                    if($isRegistered == "Completed"){
+                                      echo '
+                                      <td>
+                                        <span class="status-btn success-btn">'.$isRegistered.'</span>
+                                      </td>';
+                                    }
 
-                                echo '<td>
-                                  <a href="delete-user.php?id='.$user->getEmailAddress().'" class="text-danger">
-                                    <i class="lni lni-trash-can"></i>
-                                  </a>
-                                </td>
-                              </tr>
-                          ';
-                          // <div class="action justify-content-end">
-                          //           <button
-                          //             class="more-btn ml-10 dropdown-toggle"
-                          //             id="moreAction1"
-                          //             data-bs-toggle="dropdown"
-                          //             aria-expanded="false"
-                          //           >
-                          //             <i class="lni lni-more-alt"></i>
-                          //           </button>
-                          //           <ul
-                          //             class="dropdown-menu dropdown-menu-end"
-                          //             aria-labelledby="moreAction1"
-                          //           >
-                          //             <li class="dropdown-item">
-                          //               <a href="delete-user.php?id='.$user->getEmailAddress().'" class="text-gray">Remove</a>
-                          //             </li>
-                          //             <li class="dropdown-item">
-                          //               <a href="edit-user.php?id='.$user->getEmailAddress().'" class="text-gray">Edit</a>
-                          //             </li>
-                          //           </ul>
-                          //         </div>
+                                    echo '<td>
+                                      <a href="delete-user.php?id='.$user->getEmailAddress().'" class="text-danger">
+                                        <i class="lni lni-trash-can"></i>
+                                      </a>
+                                    </td>
+                                  </tr>
+                              ';
+                          }
                         }
                       ?>
                     </tbody>

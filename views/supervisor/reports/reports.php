@@ -25,10 +25,11 @@ $_SESSION["student_id"] = $studentId;
 
 <!-- ======== sidebar-nav start =========== -->
 <aside class="sidebar-nav-wrapper">
-<div class="navbar-logo mb-5 mt-3">
-<a href="index.html">
-    <h2><small>AA PORTAL</small></h2>
-</a>
+<div class="navbar-logo " >
+    <a href="#">
+        <img src="../../../assets/images/logo.jpg" alt="" class="img-fluid " width="120px;">
+        <h4><small>ASSESSMENT PORTAL</small></h4>
+    </a>
 </div>
 <nav class="sidebar-nav">
     <ul>
@@ -256,6 +257,13 @@ $_SESSION["student_id"] = $studentId;
                                     </td>
                                     ';
                                 }
+                                if($report->getApproved() == " " || $report->getApproved() == null){
+                                    echo'
+                                    <td class="min-width">
+                                        <span class="status-btn info-btn">pending</span>
+                                    </td>
+                                    ';
+                                }
                                 echo'
                                     <td class="min-width">
                                         <div class="action justify-content-end">
@@ -272,6 +280,9 @@ $_SESSION["student_id"] = $studentId;
                                                     </li>
                                                     <li class="dropdown-item">
                                                         <a href="approve-reject-report.php?reject='.$report->getId().'" class="text-gray">Reject</a>
+                                                    </li>
+                                                    <li class="dropdown-item">
+                                                        <a href="../../../uploads/'.$report->getReport().'" download="'.$report->getReport().'" class="text-gray">download</a>
                                                     </li>
                                                 </ul>
                                         </div>

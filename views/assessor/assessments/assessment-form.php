@@ -13,14 +13,14 @@
     $assessor = $assessorController->getLoggedInAssessor($_SESSION["email_address"]);
     $students = $assessorController->fetchStudentsByAssessorId($assessor->getId());
 ?>
-
 <!-- ======== sidebar-nav start =========== -->
 <aside class="sidebar-nav-wrapper">
-    <div class="navbar-logo mb-5 mt-3">
-    <a href="index.html">
-        <h2><small>AA PORTAL</small></h2>
+<div class="navbar-logo " >
+    <a href="#">
+        <img src="../../../assets/images/logo.jpg" alt="" class="img-fluid " width="120px;">
+        <h4><small>ASSESSMENT PORTAL</small></h4>
     </a>
-    </div>
+</div>
     <nav class="sidebar-nav">
       <ul>
           <li class="nav-item nav-item-has-children">
@@ -69,14 +69,11 @@
                   <span class="text">Students</span>
               </a>
               <ul id="ddmenu" class="collapse show dropdown-nav">
-                  <li> 
+                  <li>
                       <a href="assessment-form.php" class="active">Assessment Forms</a>
                   </li>
                   <li>
                       <a href="../reports/reports.php">Reports </a>
-                  </li>
-                  <li>
-                      <a href="../tasks/tasks.php">Tasks </a>
                   </li>
               </ul>
           </li> 

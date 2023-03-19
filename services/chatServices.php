@@ -147,7 +147,7 @@ class ChatServices{
         }
         else {
             $query = "INSERT into `chat` (assessor_id, supervisor_id) 
-                                    VALUES ('7', '6')";
+                                    VALUES ('$assessorId', '$supervisorId')";
             
             if(mysqli_query($con, $query)){
                 $query12 = "SELECT * FROM `chat` WHERE `assessor_id`='$assessorId' AND `supervisor_id` ='$supervisorId'";

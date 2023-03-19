@@ -137,6 +137,7 @@
             <!-- message start -->
             <?php 
             if($user->getAccountType() == "supervisor"){
+                $isEmpty = true;
                 echo '
                     <div class="header-message-box ml-15 d-none d-md-flex">
                         <button
@@ -164,9 +165,9 @@
                                 if($message->getStatus() != "seen"){
                                     echo '
                                     <li>
-                                        <a href="../../supervisor/messages/mark-as-read.php?id='.$message->getId().'">
+                                        <a href="../../supervisor/messages/mark-as-read.php?id='.$chat->getId().'">
                                         <div class="image">
-                                            <img src="../../../assets/images/lead/lead-5.png" alt="" />
+                                            <img src="../../../assets/images/logo.jpg" alt="" />
                                         </div>
                                         <div class="content">
                                             <h6>'.$message->getUser().'</h6>
@@ -176,21 +177,22 @@
                                         </a>
                                     </li>
                                     ';
-                                }else{
-                                    echo '
-                                    <li>
-                                        <a href="#">
-                                        <div class="content">
-                                            <h6>No latest Messages</h6>
-                                        </div>
-                                        </a>
-                                    </li>
-                                    ';
-                                    break;
-                                }
+                                    $isEmpty = false;
+                                }    
                             }
                         
                         }
+                    }
+                    if($isEmpty){
+                        echo '
+                        <li>
+                            <a href="#">
+                            <div class="content">
+                                <h6>No latest Messages</h6>
+                            </div>
+                            </a>
+                        </li>
+                        ';
                     }
                 echo'      
                         </ul>
@@ -213,7 +215,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="message">
                     ';
-                    
+                    $isEmpty = true;
                     foreach($chats as $chat){
                         $messages = $assessorController->fetchAllMessagesByAssessorId($chat->getId());
                         foreach($messages as $message){
@@ -224,9 +226,9 @@
                                 if($message->getStatus() != "seen"){
                                     echo '
                                     <li>
-                                        <a href="../../supervisor/messages/mark-as-read.php?id='.$message->getId().'">
+                                        <a href="../../supervisor/messages/mark-as-read.php?id='.$message->getChat().'">
                                         <div class="image">
-                                            <img src="../../../assets/images/lead/lead-5.png" alt="" />
+                                            <img src="../../../assets/images/logo.jpg" alt="" />
                                         </div>
                                         <div class="content">
                                             <h6>'.$message->getUser().'</h6>
@@ -236,21 +238,22 @@
                                         </a>
                                     </li>
                                     ';
-                                }else{
-                                    echo '
-                                    <li>
-                                        <a href="#">
-                                        <div class="content">
-                                            <h6>No latest Messages</h6>
-                                        </div>
-                                        </a>
-                                    </li>
-                                    ';
-                                    break;
+                                    $isEmpty = false;
                                 }
                             }
                         
                         }
+                    }
+                    if($isEmpty){
+                        echo '
+                        <li>
+                            <a href="#">
+                            <div class="content">
+                                <h6>No latest Messages</h6>
+                            </div>
+                            </a>
+                        </li>
+                        ';
                     }
                 echo'      
                         </ul>
@@ -280,7 +283,7 @@
                                 <h6>'.$user->getEmailAddress().'</h6>
                                 <div class="image">
                                     <img
-                                    src="../../../assets/images/profile/profile-image.png"
+                                    src="../../../assets/images/logo.jpg"
                                     alt=""
                                     />
                                     <span class="status"></span>
@@ -319,7 +322,7 @@
                                 <h6>'.$user->getEmailAddress().'</h6>
                                 <div class="image">
                                     <img
-                                    src="../../../assets/images/profile/profile-image.png"
+                                    src="../../../assets/images/logo.jpg"
                                     alt=""
                                     />
                                     <span class="status"></span>
@@ -330,10 +333,10 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="profile">
                             <li>
-                                <a href="#0">View Profile</a>
+                                <a href="../../students/profile/profile.php">View Profile</a>
                             </li>
                             <li>
-                                <a href="#0">Notifications</a>
+                                <a href="../../students/dashboard/dashboard.php">Notifications</a>
                             </li>
                             <li>
                                 <a href="../../auth/signout.php">Sign Out</a>
@@ -358,7 +361,7 @@
                                 <h6>'.$user->getEmailAddress().'</h6>
                                 <div class="image">
                                     <img
-                                    src="../../../assets/images/profile/profile-image.png"
+                                    src="../../../assets/images/logo.jpg"
                                     alt=""
                                     />
                                     <span class="status"></span>
@@ -369,10 +372,10 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="profile">
                             <li>
-                                <a href="#0">View Profile</a>
+                                <a href="../../assessor/profile/profile.php">View Profile</a>
                             </li>
                             <li>
-                                <a href="#0">Messages</a>
+                                <a href="../../assessor/messages/messages.php">Messages</a>
                             </li>
                             <li>
                                 <a href="../../auth/signout.php">Sign Out</a>
@@ -397,7 +400,7 @@
                                 <h6>'.$user->getEmailAddress().'</h6>
                                 <div class="image">
                                     <img
-                                    src="../../../assets/images/profile/profile-image.png"
+                                    src="../../../assets/images/logo.jpg"
                                     alt=""
                                     />
                                     <span class="status"></span>
@@ -408,7 +411,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="profile">
                             <li>
-                                <a href="#0">View Profile</a>
+                                <a href="../../admin/profile/profile.php">View Profile</a>
                             </li>
                             <li>
                                 <a href="../../auth/signout.php">Sign Out</a>

@@ -5,11 +5,11 @@ class SupervisorService{
     private $db;
     function __construct() { $this->db = new Connection("localhost", "root", "", "portal");}
 
-    function saveSupervisor($firstName, $lastName, $position, $companyName, $phoneNumber, $emailAddress) {
+    function saveSupervisor($firstName, $lastName, $position, $companyName, $phoneNumber, $ecNumber, $emailAddress) {
         $isCreated = false;
-        $query = "INSERT into `supervisor` (first_name, last_name, position, company_name, phone_number, email_address) 
+        $query = "INSERT into `supervisor` (first_name, last_name, position, company_name, phone_number, ec_number, email_address) 
                                     VALUES ('$firstName', '$lastName', '$position', '$companyName', 
-                                            '$phoneNumber', '$emailAddress')";
+                                            '$phoneNumber', '$ecNumber', '$emailAddress')";
         $con = $this->db->openConnection();
         if (mysqli_query($con, $query)) {
             $isCreated = True;
@@ -29,7 +29,7 @@ class SupervisorService{
         $result = mysqli_query($con, $query);
 
         while($row = $result->fetch_assoc()) {
-            $supervisor = new Supervisor($row['id'],$row['first_name'],$row['last_name'],$row['position'],$row['company_name'],$row['email_address'],$row['phone_number']);
+            $supervisor = new Supervisor($row['id'],$row['first_name'],$row['last_name'],$row['position'],$row['company_name'],$row['email_address'],$row['ec_number'],$row['phone_number']);
             array_push($supervisors, $supervisor);
             unset($supervisor);
         }
@@ -46,7 +46,7 @@ class SupervisorService{
         $result = mysqli_query($con, $query)or die(mysqli_error($con));
 
         while($row = $result->fetch_assoc()) {
-            $supervisor = new Supervisor($row['id'],$row['first_name'],$row['last_name'],$row['position'],$row['company_name'],$row['email_address'],$row['phone_number']);
+            $supervisor = new Supervisor($row['id'],$row['first_name'],$row['last_name'],$row['position'],$row['company_name'],$row['email_address'],$row['ec_number'],$row['phone_number']);
             array_push($supervisors, $supervisor);
             unset($supervisor);
         }
@@ -64,7 +64,7 @@ class SupervisorService{
         $result = mysqli_query($con, $query);
 
         while($row = $result->fetch_assoc()) {
-            $user = new Supervisor($row['id'],$row['first_name'],$row['last_name'],$row['position'],$row['company_name'],$row['email_address'],$row['phone_number']);
+            $user = new Supervisor($row['id'],$row['first_name'],$row['last_name'],$row['position'],$row['company_name'],$row['email_address'],$row['ec_number'],$row['phone_number']);
             array_push($users, $user);
             unset($user);
         }

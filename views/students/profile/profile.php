@@ -2,7 +2,7 @@
 <?php 
 session_start();
 if(!isset($_SESSION["email_address"])) {
-    header("Location: ../../auth/signup.php");
+    header("Location: ../../auth/signup/signup.php");
     exit();
 }
 require_once("../../../controllers/studentController.php");
@@ -19,14 +19,16 @@ $studentSuper = $supervisorController->getLoggedInUser2($_SESSION["email_address
 $_SESSION["student_id"] = $student->getId();
 $_SESSION["user_id"] = $studentSuper->getId();
 
+
 ?>
 
 <!-- ======== sidebar-nav start =========== -->
 <aside class="sidebar-nav-wrapper">
-<div class="navbar-logo mb-5 mt-3">
-<a href="index.html">
-    <h2><small>AA PORTAL</small></h2>
-</a>
+<div class="navbar-logo " >
+    <a href="#">
+        <img src="../../../assets/images/logo.jpg" alt="" class="img-fluid " width="120px;">
+        <h4><small>ASSESSMENT PORTAL</small></h4>
+    </a>
 </div>
 <nav class="sidebar-nav">
     <ul>
@@ -73,35 +75,20 @@ $_SESSION["user_id"] = $studentSuper->getId();
                     />
                 </svg>
                 </span>
-                <span class="text">Students</span>
+                <span class="text">Assessment</span>
             </a>
             <ul id="ddmenu" class="collapse show dropdown-nav">
                 <li>
-                    <a href="../assessments/assessment-form.php">Assessment Forms</a>
+                    <a href="../assessments/assessment-form.php">Assessment Form</a>
                 </li>
                 <li>
                     <a href="../reports/reports.php">Reports </a>
                 </li>
+                <li>
+                    <a href="../tasks/tasks.php">Tasks </a>
+                </li>
             </ul>
         </li> 
-        <li class="nav-item">
-        <a href="../messages/messages.php">
-            <span class="icon">
-            <svg
-                width="22"
-                height="22"
-                viewBox="0 0 22 22"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                d="M9.16667 19.25H12.8333C12.8333 20.2584 12.0083 21.0834 11 21.0834C9.99167 21.0834 9.16667 20.2584 9.16667 19.25ZM19.25 17.4167V18.3334H2.75V17.4167L4.58333 15.5834V10.0834C4.58333 7.24171 6.41667 4.76671 9.16667 3.94171V3.66671C9.16667 2.65837 9.99167 1.83337 11 1.83337C12.0083 1.83337 12.8333 2.65837 12.8333 3.66671V3.94171C15.5833 4.76671 17.4167 7.24171 17.4167 10.0834V15.5834L19.25 17.4167ZM15.5833 10.0834C15.5833 7.51671 13.5667 5.50004 11 5.50004C8.43333 5.50004 6.41667 7.51671 6.41667 10.0834V16.5H15.5833V10.0834Z"
-                />
-            </svg>
-            </span>
-            <span class="text">Messages</span>
-        </a>
-        </li>
     </ul>
 </nav>
 </aside>
@@ -173,7 +160,7 @@ $_SESSION["user_id"] = $studentSuper->getId();
 
                     <div class="input-style-1">
                         <label>Email</label>
-                        <?php echo'<input type="email" name="email_address" placeholder="'.$student->getEmailAddress().'" value="'.$assessor->getEmailAddress().'" disabled/>';?>
+                        <?php echo'<input type="email" name="email_address" placeholder="'.$student->getEmailAddress().'" value="'.$student->getEmailAddress().'" disabled/>';?>
                     </div>
                     <div class="input-style-1">
                         <label>Password</label>
@@ -231,9 +218,10 @@ $_SESSION["user_id"] = $studentSuper->getId();
                 <div class="col-12">
                     <div class="input-style-1">
                     <label>New Password</label>
-                    <?php echo '<input type="password" name="new_password"/>';?>
+                    <?php echo '<input type="password" name="new_password" />';?>
                     </div>
                 </div>
+                
                 <div class="col-12">
                     <div class="input-style-1">
                     <label>Confirm Password</label>

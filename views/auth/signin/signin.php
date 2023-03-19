@@ -6,6 +6,18 @@
 <!-- ======== main-wrapper start =========== -->
 <main class="mx-5 p-5">
 
+    <?php
+        if (isset($_GET['msg'])){
+          $msg = $_GET['msg'];
+          echo '
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-div">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <strong class="">'.$msg.'</strong>
+          </div>
+        ';
+          }
+    ?>
+
       <!-- ========== signin-section start ========== -->
       <section class="signin-section mb-5" >
         <div class="container-fluid">
@@ -34,8 +46,7 @@
                 <div class="form-wrapper">
                   <h6 class="mb-15">Sign In Form</h6>
                   <p class="text-sm mb-25">
-                    Start creating the best possible user experience for you
-                    customers.
+                    If you are registered, login below.
                   </p>
                   <form action="log-user.php">
                     <div class="row">

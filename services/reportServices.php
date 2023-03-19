@@ -39,6 +39,23 @@ class ReportServices{
         return $reports;
     }
 
+    function fetchReportsByStudentId($id){
+        $reports = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `report` WHERE `student_id` = '$id'";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $report = new Report($row['id'],$row['report'],$row['title'],$row['status'],$row['student_id'],$row['supervisor_id'],$row['assessor_id']);
+            array_push($reports, $report);
+            unset($report);
+        }
+
+        $con->close(); 
+        return $reports;
+    }
+
     function approveReport($reportId){
         $approved = false;
         $con = $this->db->openConnection();
@@ -67,10 +84,19 @@ class ReportServices{
         return $approved;
     }
 
-    function createReport(){}
-    function fetchAllReport(){}
-    function deleteReportById($id){}
-    function updateReportById($id){}
-    function fetchReportById($id){}
+    function addReport($report,$title,$studentId,$supervisorId,$assessorId){
+        $added = false;
+        $con = $this->db->openConnection();
+
+        $query = "INSERT INTO `report`( `report`, `title`, `student_id`, `supervisor_id`, `assessor_id`) 
+                            VALUES ('$report', '$title', '$studentId', '$supervisorId', '$assessorId')";
+
+        if(mysqli_query($con, $query) or die(mysqli_error($con))) {
+            $added = true;
+        }
+
+        $con->close(); 
+        return $added;
+    }
 }
 ?>

@@ -16,10 +16,11 @@ $supervisors = $adminController->fetchAllSupervisors();
 
 <!-- ======== sidebar-nav start =========== -->
 <aside class="sidebar-nav-wrapper">
-<div class="navbar-logo mb-5 mt-3">
-<a href="index.html">
-    <h2><small>AA PORTAL</small></h2>
-</a>
+<div class="navbar-logo " >
+    <a href="#">
+        <img src="../../../assets/images/logo.jpg" alt="" class="img-fluid " width="120px;">
+        <h4><small>ASSESSMENT PORTAL</small></h4>
+    </a>
 </div>
 <nav class="sidebar-nav">
     <ul>
@@ -166,6 +167,9 @@ $supervisors = $adminController->fetchAllSupervisors();
                             </th>
                             <th>
                                 <h6>Email Address</h6>
+                            </th> 
+                            <th>
+                                <h6>EC Number</h6>
                             </th>
                             <th>
                                 <h6>Mobile Number</h6>
@@ -199,6 +203,9 @@ $supervisors = $adminController->fetchAllSupervisors();
                                     <a href=""><p>'.$supervisor->getEmailAddress().'</p></a>
                                 </td>
                                 <td class="min-width">
+                                    <a href=""><p>'.$supervisor->getEcNumber().'</p></a>
+                                </td>
+                                <td class="min-width">
                                     <a href=""><p>'.$supervisor->getPhoneNumber().'</p></a>
                                 </td>
                                 <td>
@@ -209,9 +216,6 @@ $supervisors = $adminController->fetchAllSupervisors();
                                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
                                             <li class="dropdown-item">
                                                 <a href="delete-user.php?id='.$supervisor->getEmailAddress().'" class="text-gray">Delete</a>
-                                            </li>
-                                            <li class="dropdown-item">
-                                                <a href="#0" class="text-gray">Edit</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -285,6 +289,13 @@ $supervisors = $adminController->fetchAllSupervisors();
                 <input type="text" name="phone_number" class="form-control" id="validationCustom05" required>
                 <div class="invalid-feedback">
                 Please provide a valid Mobile Number.
+                </div>
+            </div>
+            <div class="col">
+                <label for="validationCustom05" class="form-label">EC Number</label>
+                <input type="text" name="ec_number" class="form-control" id="validationCustom05" required>
+                <div class="invalid-feedback">
+                Please provide a valid EC Number.
                 </div>
             </div>
             <div class="col-md-3">

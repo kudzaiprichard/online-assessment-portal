@@ -20,17 +20,17 @@
         if($password == $confirmPassword){
             if($adminController->saveAsUser(false,$password,$emailAddress,null)){
                 $msg = "Account Registered successfully, you can procced to login";
-                header("Location: ../signin/signin.php?$msg");
+                header("Location: ../signin/signin.php?msg=$msg");
                 die();
             }else{
                 $msg = "The email address used is not registered";
-                header("Location: signup.php?$msg");
+                header("Location: signup.php?msg=$msg");
                 die();
             }
             
         }else{
             $msg = "Password and Confirm Password should match!";
-            header("Location: signup.php?$msg");
+            header("Location: signup.php?msg=$msg");
             die();
         }
 

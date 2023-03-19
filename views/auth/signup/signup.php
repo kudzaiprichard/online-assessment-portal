@@ -1,11 +1,22 @@
 <?php 
     define('ROOT',$_SERVER['DOCUMENT_ROOT']."/assessment_portal/views/");
     include(ROOT."includes/header.inc.php");
+
 ?>
 
     <!-- ======== main-wrapper start =========== -->
     <main class="mx-5 p-5">
-
+    <?php
+        if (isset($_GET['msg'])){
+          $msg = $_GET['msg'];
+          echo '
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-div">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <strong class="">'.$msg.'</strong>
+          </div>
+        ';
+          }
+    ?>
       <!-- ========== signin-section start ========== -->
       <section class="signin-section mb-5">
         <div class="container-fluid">
@@ -16,9 +27,9 @@
                   <div class="title text-center">
                     <h1 class="text-primary mb-10">Get Started</h1>
                     <p class="text-medium">
-                      Start creating the best possible user experience
+                      Make sure your email is registered in the system
                       <br class="d-sm-block" />
-                      for you customers.
+                      contact admin if email is not registered.
                     </p>
                   </div>
                   <div class="cover-image">
@@ -36,8 +47,7 @@
                 <div class="form-wrapper">
                   <h6 class="mb-15">Sign Up Form</h6>
                   <p class="text-sm mb-25">
-                    Start creating the best possible user experience for you
-                    customers.
+                    You can only create an account if your email is registered in the system.
                   </p>
                   <form action="create-account.php">
                     <div class="row">

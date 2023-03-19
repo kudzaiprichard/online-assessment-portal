@@ -16,10 +16,11 @@ $assessors = $adminController->fetchAllAssessors();
 
 <!-- ======== sidebar-nav start =========== -->
 <aside class="sidebar-nav-wrapper">
-<div class="navbar-logo mb-5 mt-3">
-<a href="index.html">
-    <h2><small>AA PORTAL</small></h2>
-</a>
+<div class="navbar-logo " >
+    <a href="#">
+        <img src="../../../assets/images/logo.jpg" alt="" class="img-fluid " width="120px;">
+        <h4><small>ASSESSMENT PORTAL</small></h4>
+    </a>
 </div>
 <nav class="sidebar-nav">
     <ul>
@@ -159,7 +160,7 @@ $assessors = $adminController->fetchAllAssessors();
                                 <h6>Last Name</h6>
                             </th>
                             <th>
-                                <h6>Reg Number</h6>
+                                <h6>WRL Number</h6>
                             </th>
                             <th>
                                 <h6>Program</h6>
@@ -216,9 +217,6 @@ $assessors = $adminController->fetchAllAssessors();
                                         <li class="dropdown-item">
                                             <a href="delete-user.php?id='.$assessor->getEmailAddress().'" class="text-gray">Delete</a>
                                         </li>
-                                        <li class="dropdown-item">
-                                            <a href="#0" class="text-gray">Edit</a>
-                                        </li>
                                     </ul>
                                 </div>
                             </td>
@@ -264,7 +262,7 @@ $assessors = $adminController->fetchAllAssessors();
                 </div>
             </div>
             <div class="col-md-4">
-                <label for="validationCustomUsername" class="form-label">Reg Number</label>
+                <label for="validationCustomUsername" class="form-label">WRL Number</label>
                 <div class="input-group">
                 <input type="text" name="reg_number" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
                 <div class="invalid-feedback">

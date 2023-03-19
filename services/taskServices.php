@@ -48,6 +48,23 @@ class TaskServices{
         return $tasks;
     }
 
+    function fetchTasksByStudentId($id){
+        $tasks = array();
+        $con = $this->db->openConnection();
+        $query = "SELECT * FROM `task` WHERE `students_id` = '$id'";
+
+        $result = mysqli_query($con, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $task = new Task($row['id'],$row['name'],$row['description'],$row['status'],$row['student_comment'],$row['supervisor_comment'],$row['students_id'],$row['supervisor_id'],$row['timestamp'],$row['rating']);
+            array_push($tasks, $task);
+            unset($task);
+        }
+
+        $con->close(); 
+        return $tasks;
+    }
+
     function fetchTasksBySupervisorId($supervisorId){
         $tasks = array();
         $con = $this->db->openConnection();
@@ -78,6 +95,21 @@ class TaskServices{
         $con->close(); 
         return $isUpdated;
     }
+
+    function commentTask($taskId,$comment){
+        $isUpdated = false;
+        $con = $this->db->openConnection();
+
+        $query = "UPDATE `task` SET `student_comment`='$comment', `status`='completed' WHERE `id`='$taskId'";
+        
+        if (mysqli_query($con, $query) or die(mysqli_error($con))) {
+            $isUpdated = true;
+        }
+
+        $con->close(); 
+        return $isUpdated;
+    }
+
     function deleteTaskByTaskId($taskId){
         $isDeleted = false;
         $con = $this->db->openConnection();

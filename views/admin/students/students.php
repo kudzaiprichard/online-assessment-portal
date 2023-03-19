@@ -18,10 +18,11 @@
 
 <!-- ======== sidebar-nav start =========== -->
 <aside class="sidebar-nav-wrapper">
-<div class="navbar-logo mb-5 mt-3">
-<a href="index.html">
-    <h2><small>AA PORTAL</small></h2>
-</a>
+<div class="navbar-logo " >
+    <a href="#">
+        <img src="../../../assets/images/logo.jpg" alt="" class="img-fluid " width="120px;">
+        <h4><small>ASSESSMENT PORTAL</small></h4>
+    </a>
 </div>
 <nav class="sidebar-nav">
     <ul>
@@ -217,9 +218,6 @@
                                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
                                             <li class="dropdown-item">
                                                 <a href="delete-user.php?id='.$student->getEmailAddress().'" class="text-gray">Delete</a>
-                                            </li>
-                                            <li class="dropdown-item">
-                                                <a href="#0" class="text-gray">Edit</a>
                                             </li>
                                         </ul>
                                     </div>

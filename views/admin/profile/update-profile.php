@@ -16,12 +16,20 @@
         $password = stripslashes($_REQUEST['password']);    
         $password = mysqli_real_escape_string($con, $password);
 
-        $adminController->updateUser($id,$emailAddress, $password);
+        $confirmPassword = stripslashes($_REQUEST['confirm_password']);    
+        $confirmPassword = mysqli_real_escape_string($con, $confirmPassword);
 
         
-        $msg = "Profile Updated successfully";
-        header("Location: profile.php?$msg");
-        die();
+
+        if($password == $confirmPassword){
+            $adminController->updateUser($id,$emailAddress, $password);
+            $msg = "Profile Updated successfully";
+            header("Location: profile.php?$msg");
+            die();
+        }else{
+            $msg = "Passwords don't match";
+            header("Location: profile.php?$msg");
+        }
 
     }else{
         $msg = "Failed To Update Profile!";

@@ -20,10 +20,11 @@ $students = $supervisorController->fetchAllStudentsBySupervisorsId($supervisor->
 
 <!-- ======== sidebar-nav start =========== -->
 <aside class="sidebar-nav-wrapper">
-<div class="navbar-logo mb-5 mt-3">
-<a href="index.html">
-    <h2><small>AA PORTAL</small></h2>
-</a>
+<div class="navbar-logo " >
+    <a href="#">
+        <img src="../../../assets/images/logo.jpg" alt="" class="img-fluid " width="120px;">
+        <h4><small>ASSESSMENT PORTAL</small></h4>
+    </a>
 </div>
 <nav class="sidebar-nav">
     <ul>
@@ -230,7 +231,8 @@ $students = $supervisorController->fetchAllStudentsBySupervisorsId($supervisor->
                                         <tbody>
                                             <?php
                                                 foreach($tasks as $task) {
-                                                    echo '
+                                                    if($task->getStudent() == $studentId && $task->getSupervisor() == $supervisor->getId()) {
+                                                        echo '
                                                     <tr>
                                                         <td class="min-width">
                                                             <p>
@@ -263,6 +265,7 @@ $students = $supervisorController->fetchAllStudentsBySupervisorsId($supervisor->
                                                             </td>
                                                         </tr>
                                                         ';
+                                                    }
                                                     }
                                                 }
                                             ?>

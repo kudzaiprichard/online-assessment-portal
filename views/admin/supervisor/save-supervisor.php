@@ -25,11 +25,14 @@
         $emailAddress = stripslashes($_REQUEST['email_address']);  
         $emailAddress = mysqli_real_escape_string($con, $emailAddress);
 
+        $ecNumber = stripslashes($_REQUEST['ec_number']);  
+        $ecNumber = mysqli_real_escape_string($con, $ecNumber);
+
         $accountType = stripslashes($_REQUEST['account_type']);    
         $accountType = mysqli_real_escape_string($con, $accountType);
 
         // echo $physicalAddress;
-        $adminController->addSupervisor($firstName, $lastName, $position, $companyName, $phoneNumber, $emailAddress);
+        $adminController->addSupervisor($firstName, $lastName, $position, $companyName, $phoneNumber, $ecNumber, $emailAddress);
         $adminController->saveAsUser(true,null,$emailAddress,$accountType);
 
         $msg = "User Added successfully";

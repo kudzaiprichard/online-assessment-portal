@@ -17,10 +17,11 @@ $user = $adminController->getLoggedInUser($_SESSION["email_address"]);
 
 <!-- ======== sidebar-nav start =========== -->
 <aside class="sidebar-nav-wrapper">
-<div class="navbar-logo mb-5 mt-3">
-<a href="index.html">
-    <h2><small>AA PORTAL</small></h2>
-</a>
+<div class="navbar-logo " >
+    <a href="#">
+        <img src="../../../assets/images/logo.jpg" alt="" class="img-fluid " width="120px;">
+        <h4><small>ASSESSMENT PORTAL</small></h4>
+    </a>
 </div>
 <nav class="sidebar-nav">
     <ul>
@@ -175,13 +176,19 @@ $user = $adminController->getLoggedInUser($_SESSION["email_address"]);
                 <div class="col-12">
                     <div class="input-style-1">
                         <label>Email</label>
-                        <input type="email" name="email_address"/>
+                        <input type="email" name="email_address" value="<?php echo $user->getEmailAddress();?>"/>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="input-style-1">
-                        <label>Password</label>
+                        <label>New Password</label>
                         <input type="password" name="password" />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-style-1">
+                        <label>Confirm Password</label>
+                        <input type="password" name="confirm_password" />
                     </div>
                 </div>
                 <div class="col-12">
